@@ -1,0 +1,39 @@
+version: "2"
+services:
+  client:
+    build:
+      context: .
+      dockerfile: client/Dockerfile
+    restart: always
+    volumes:
+    - .:/go/src/PGraph
+    container_name: client
+    ports: []
+  project:
+    build:
+      context: .
+      dockerfile: project/Dockerfile
+    restart: always
+    volumes:
+    - .:/go/src/PGraph
+    container_name: project
+    ports: []
+  report:
+    build:
+      context: .
+      dockerfile: report/Dockerfile
+    restart: always
+    volumes:
+    - .:/go/src/PGraph
+    container_name: report
+    ports: []
+  user:
+    build:
+      context: .
+      dockerfile: user/Dockerfile
+    restart: always
+    volumes:
+    - .:/go/src/PGraph
+    container_name: user
+    ports:
+    - 8800:8081
