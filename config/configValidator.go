@@ -6,10 +6,10 @@ import (
 
 // database code. Need to map to the database code (DataStoreConfig) in the configuration yaml file.
 const (
-	SQLDB      string = "sqldb"
-	COUCHDB    string = "couch"
-	CACHE_GRPC string = "cacheGrpc"
-	USER_GRPC  string = "userGrpc"
+	SQLDB     string = "sqldb"
+	COUCHDB   string = "couch"
+	CACHEGRPC string = "cacheGrpc"
+	USERGRPC  string = "userGrpc"
 )
 
 // constant for logger code, it needs to match log code (logConfig)in configuration
@@ -22,16 +22,16 @@ const (
 // Client app use those to retrieve use case from the container
 const (
 	REGISTRATION string = "registration"
-	LIST_USER    string = "listUser"
-	LIST_COURSE  string = "listCourse"
+	LISTUSER     string = "listUser"
+	LISTCOURSE   string = "listCourse"
 )
 
 // data service code. Need to map to the data service code (DataConfig) in the configuration yaml file.
 const (
-	USER_DATA   string = "userData"
-	CACHE_DATA  string = "cacheData"
-	TX_DATA     string = "txData"
-	COURSE_DATA string = "courseData"
+	USERDATA   string = "userData"
+	CACHEDATA  string = "cacheData"
+	TXDATA     string = "txData"
+	COURSEDATA string = "courseData"
 )
 
 func validateConfig(appConfig AppConfig) error {
@@ -84,15 +84,15 @@ func validateDataStore(appConfig AppConfig) error {
 	}
 	cgc := appConfig.CacheGrpcConfig
 	key = cgc.Code
-	if CACHE_GRPC != key {
-		errMsg := CACHE_GRPC + scMsg + key
+	if CACHEGRPC != key {
+		errMsg := CACHEGRPC + scMsg + key
 		return errors.New(errMsg)
 	}
 
 	ugc := appConfig.UserGrpcConfig
 	key = ugc.Code
-	if USER_GRPC != key {
-		errMsg := USER_GRPC + scMsg + key
+	if USERGRPC != key {
+		errMsg := USERGRPC + scMsg + key
 		return errors.New(errMsg)
 	}
 
@@ -124,13 +124,13 @@ func validateRegistration(useCaseConfig UseCaseConfig) error {
 		return errors.New(errMsg)
 	}
 	key = rc.UserDataConfig.Code
-	if USER_DATA != key {
-		errMsg := USER_DATA + rcMsg + key
+	if USERDATA != key {
+		errMsg := USERDATA + rcMsg + key
 		return errors.New(errMsg)
 	}
 	key = rc.TxDataConfig.Code
-	if TX_DATA != key {
-		errMsg := TX_DATA + rcMsg + key
+	if TXDATA != key {
+		errMsg := TXDATA + rcMsg + key
 		return errors.New(errMsg)
 	}
 	return nil
@@ -140,13 +140,13 @@ func validateListUser(useCaseConfig UseCaseConfig) error {
 	lc := useCaseConfig.ListUser
 	key := lc.Code
 	luMsg := " in validateListUser doesn't match key = "
-	if LIST_USER != key {
-		errMsg := LIST_USER + luMsg + key
+	if LISTUSER != key {
+		errMsg := LISTUSER + luMsg + key
 		return errors.New(errMsg)
 	}
 	key = lc.CacheDataConfig.Code
-	if CACHE_DATA != key {
-		errMsg := CACHE_DATA + luMsg + key
+	if CACHEDATA != key {
+		errMsg := CACHEDATA + luMsg + key
 		return errors.New(errMsg)
 	}
 	return nil
@@ -155,13 +155,13 @@ func validateListCourse(useCaseConfig UseCaseConfig) error {
 	lc := useCaseConfig.ListCourse
 	key := lc.Code
 	lcMsg := " in validateListCourse doesn't match key = "
-	if LIST_COURSE != key {
-		errMsg := LIST_COURSE + lcMsg + key
+	if LISTCOURSE != key {
+		errMsg := LISTCOURSE + lcMsg + key
 		return errors.New(errMsg)
 	}
 	key = lc.CourseDataConfig.Code
-	if COURSE_DATA != key {
-		errMsg := COURSE_DATA + lcMsg + key
+	if COURSEDATA != key {
+		errMsg := COURSEDATA + lcMsg + key
 		return errors.New(errMsg)
 	}
 	return nil

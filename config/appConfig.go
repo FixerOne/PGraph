@@ -56,13 +56,13 @@ type DataConfig struct {
 	DataStoreConfig DataStoreConfig `yaml:"dataStoreConfig"`
 }
 
-// DataConfig represents handlers for data store. It can be a database or a gRPC connection
+// DataStoreConfig represents handlers for data store. It can be a database or a gRPC connection
 type DataStoreConfig struct {
 	Code string `yaml:"code"`
 	// Only database has a driver name, for grpc it is "tcp" ( network) for server
 	DriverName string `yaml:"driverName"`
 	// For database, this is datasource name; for grpc, it is target url
-	UrlAddress string `yaml:"urlAddress"`
+	URLAddress string `yaml:"urlAddress"`
 	// Only some databases need this database name
 	DbName string `yaml:"dbName"`
 }
