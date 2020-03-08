@@ -4,36 +4,45 @@ services:
     build:
       context: .
       dockerfile: client/Dockerfile
+    container_name: client
+    ports: []
     restart: always
     volumes:
     - .:/go/src/PGraph
-    container_name: client
+  employee:
+    build:
+      context: .
+      dockerfile: employee/Dockerfile
+    restart: always
+    volumes:
+    - .:/go/src/PGraph
+    container_name: employee
     ports: []
   project:
     build:
       context: .
       dockerfile: project/Dockerfile
+    container_name: project
+    ports: []
     restart: always
     volumes:
     - .:/go/src/PGraph
-    container_name: project
-    ports: []
   report:
     build:
       context: .
       dockerfile: report/Dockerfile
+    container_name: report
+    ports: []
     restart: always
     volumes:
     - .:/go/src/PGraph
-    container_name: report
-    ports: []
   user:
     build:
       context: .
       dockerfile: user/Dockerfile
-    restart: always
-    volumes:
-    - .:/go/src/PGraph
     container_name: user
     ports:
     - 8800:8081
+    restart: always
+    volumes:
+    - .:/go/src/PGraph
