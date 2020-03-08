@@ -2,7 +2,7 @@ package main
 
 func main() {
 
-	//Para prueba del del GITHub
+	//Para prueba del del GITHub nuevo branch
 	println("Funciono GIT")
 
 }
