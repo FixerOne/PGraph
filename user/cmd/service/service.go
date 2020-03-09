@@ -42,6 +42,7 @@ var zipkinURL = fs.String("zipkin-url", "", "Enable Zipkin tracing via a collect
 var lightstepToken = fs.String("lightstep-token", "", "Enable LightStep tracing via a LightStep access token")
 var appdashAddr = fs.String("appdash-addr", "", "Enable Appdash tracing via an Appdash server host:port")
 
+// Run TODO comentario
 func Run() {
 	fs.Parse(os.Args[1:])
 
