@@ -1,27 +1,37 @@
 package main
 
 import (
-	"pgraph/controller"
-	"pgraph/service"
+	"io"
+	"os"
+	controller "pgraph/controller/company"
+	service "pgraph/service/company"
 
 	"github.com/gin-gonic/gin"
 )
 
 var (
-	userService    service.UserService       = service.New()
-	userController controller.UserController = controller.New(userService)
+	companyService    service.CompanyService       = service.New()
+	companyController controller.CompanyController = controller.New(companyService)
 )
+
+func setupLogOutput() {
+	f, _ := os.Create("gin.log")
+	gin.DefaultWriter = io.MultiWriter(f, os.Stdout)
+}
 
 func main() {
 
-	server := gin.Default()
+	//setupLogOutput()
+
+	server := gin.New()
+	server.Use(gin.Recovery(), gin.Logger())
 
 	server.GET("/GetAll", func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
-		c.JSON(200, userController.FindAll())
+		c.JSON(200, companyController.FindAll())
 	})
 
 	server.POST("/Add", func(c *gin.Context) {
@@ -29,7 +39,7 @@ func main() {
 		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
 		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
-		c.JSON(200, userController.Save(c))
+		c.JSON(200, companyController.Save(c))
 	})
 
 	server.Run(":8686")
