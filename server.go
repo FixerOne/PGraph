@@ -4,13 +4,15 @@ import (
 	"io"
 	"os"
 	controller "pgraph/controller/company"
+	repository "pgraph/repository/company"
 	service "pgraph/service/company"
 
 	"github.com/gin-gonic/gin"
 )
 
 var (
-	companyService    service.CompanyService       = service.New()
+	companyRepository repository.Repository        = repository.New()
+	companyService    service.CompanyService       = service.New(companyRepository)
 	companyController controller.CompanyController = controller.New(companyService)
 )
 
