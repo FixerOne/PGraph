@@ -9,6 +9,7 @@ import (
 
 //CompanyController inerface
 type CompanyController interface {
+	FindOne() entity.Company
 	FindAll() []entity.Company
 	Save(ctx *gin.Context) entity.Company
 }
@@ -27,11 +28,16 @@ func New(service service.CompanyService) CompanyController {
 //Save method
 func (c *controller) Save(ctx *gin.Context) entity.Company {
 	var company entity.Company
-	ctx.BindJSON(&company)
+	ctx.ShouldBindJSON(&company)
 	return c.service.Save(company)
 }
 
 //FindAll method
 func (c *controller) FindAll() []entity.Company {
 	return c.service.FindAll()
+}
+
+//FindAll method
+func (c *controller) FindOne() entity.Company {
+	return c.service.FindAll()[0]
 }
