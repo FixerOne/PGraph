@@ -13,6 +13,7 @@ type Repository interface {
 	Update(data entity.Company)
 	Delete(data entity.Company)
 	FindAll() []entity.Company
+	FindByID(id string) entity.Company
 }
 
 type repository struct {
@@ -42,4 +43,11 @@ func (r *repository) FindAll() []entity.Company {
 	var companies []entity.Company
 	r.connection.Set("gorm:auto_preload", true).Find(&companies)
 	return companies
+}
+
+func (r *repository) FindByID(id string) entity.Company {
+	var company entity.Company
+	r.connection.Set("gorm:auto_preload", true).First(&company, id)
+	//r.connection.Set("gorm:auto_preload", true).Where("id = ?", "13").First(&company)
+	return company
 }

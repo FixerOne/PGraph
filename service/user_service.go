@@ -1,6 +1,6 @@
 package service
 
-import "pgraph/entity"
+/*import "pgraph/entity"
 
 //UserService inerface
 type UserService interface {
@@ -26,4 +26,4 @@ func (service *userService) Save(user entity.User) entity.User {
 //FindAll Meethod
 func (service *userService) FindAll() []entity.User {
 	return service.users
-}
+}*/

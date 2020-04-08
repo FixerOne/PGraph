@@ -10,16 +10,17 @@ import (
 //CompanyController inerface
 type CompanyController interface {
 	FindOne() entity.Company
+	FindByID(id string) entity.Company
 	FindAll() []entity.Company
 	Save(ctx *gin.Context) entity.Company
 }
 
 type controller struct {
-	service service.CompanyService
+	service service.Service
 }
 
 //New constructor
-func New(service service.CompanyService) CompanyController {
+func New(service service.Service) CompanyController {
 	return &controller{
 		service: service,
 	}
@@ -39,5 +40,10 @@ func (c *controller) FindAll() []entity.Company {
 
 //FindAll method
 func (c *controller) FindOne() entity.Company {
-	return c.service.FindAll()[0]
+	return c.service.FindAll()[1]
+}
+
+//FindAll method
+func (c *controller) FindByID(id string) entity.Company {
+	return c.service.FindByID(id)
 }
