@@ -2,16 +2,16 @@ package user
 
 import (
 	"pgraph/entity"
-	service "pgraph/service/company"
+	service "pgraph/service/user"
 
 	"github.com/gin-gonic/gin"
 )
 
 //CompanyController inerface
 type CompanyController interface {
-	FindOne() entity.Company
+	FindOne() entity.User
 	FindByID(id string) entity.Company
-	FindAll() []entity.Company
+	FindAll() []entity.User
 	Save(ctx *gin.Context) entity.Company
 }
 
@@ -34,12 +34,12 @@ func (c *controller) Save(ctx *gin.Context) entity.Company {
 }
 
 //FindAll method
-func (c *controller) FindAll() []entity.Company {
+func (c *controller) FindAll() []entity.User {
 	return c.service.FindAll()
 }
 
 //FindAll method
-func (c *controller) FindOne() entity.Company {
+func (c *controller) FindOne() entity.User {
 	return c.service.FindAll()[1]
 }
 

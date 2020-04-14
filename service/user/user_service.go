@@ -1,14 +1,14 @@
-package company
+package user
 
 import (
 	"pgraph/entity"
-	repository "pgraph/repository/company"
+	repository "pgraph/repository/user"
 )
 
 //Service inerface
 type Service interface {
 	Save(entity.Company) entity.Company
-	FindAll() []entity.Company
+	FindAll() []entity.User
 	FindByID(id string) entity.Company
 }
 
@@ -31,7 +31,7 @@ func (service *service) Save(company entity.Company) entity.Company {
 }
 
 //FindAll Meethod
-func (service *service) FindAll() []entity.Company {
+func (service *service) FindAll() []entity.User {
 	return service.repository.FindAll()
 }
 

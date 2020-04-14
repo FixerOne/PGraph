@@ -11,6 +11,14 @@ import (
 	repoLocation "pgraph/repository/location"
 	servLocation "pgraph/service/location"
 
+	contUser "pgraph/controller/user"
+	repoUser "pgraph/repository/user"
+	servUser "pgraph/service/user"
+
+	contProject "pgraph/controller/project"
+	repoProject "pgraph/repository/project"
+	servProject "pgraph/service/project"
+
 	//servLocation "pgraph/service/location"
 
 	/*contCountry "pgraph/controller/country"
@@ -28,6 +36,14 @@ var (
 	locationRepository repoLocation.Repository         = repoLocation.New()
 	locationService    servLocation.Service            = servLocation.New(locationRepository)
 	locationController contLocation.LocationController = contLocation.New(locationService)
+
+	userRepository repoUser.Repository        = repoUser.New()
+	userService    servUser.Service           = servUser.New(userRepository)
+	userController contUser.CompanyController = contUser.New(userService)
+
+	projectRepository repoProject.Repository        = repoProject.New()
+	projectService    servProject.Service           = servProject.New(projectRepository)
+	projectController contProject.ProjectController = contProject.New(projectService)
 
 	/*countryRepository repoCountry.Repository        = repoCountry.New()
 	countryService    servCountry.CompanyService    = servCountry.New(countryRepository)
@@ -69,7 +85,7 @@ func main() {
 
 	server.GET("/user/GetAll", func(c *gin.Context) {
 		setUpHeaders(c)
-		c.JSON(200, companyController.FindAll())
+		c.JSON(200, userController.FindAll())
 	})
 	/**
 	server.POST("/user/Add", func(c *gin.Context) {

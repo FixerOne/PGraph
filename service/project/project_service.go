@@ -1,15 +1,15 @@
-package company
+package project
 
 import (
 	"pgraph/entity"
-	repository "pgraph/repository/company"
+	repository "pgraph/repository/project"
 )
 
 //Service inerface
 type Service interface {
-	Save(entity.Company) entity.Company
-	FindAll() []entity.Company
-	FindByID(id string) entity.Company
+	Save(entity.Project) entity.Project
+	FindAll() []entity.Project
+	FindByID(id string) entity.Project
 }
 
 type service struct {
@@ -24,18 +24,18 @@ func New(repository repository.Repository) Service {
 }
 
 //Save method
-func (service *service) Save(company entity.Company) entity.Company {
+func (service *service) Save(dataEntity entity.Project) entity.Project {
 	//service.companies = append(service.companies, company)
-	service.repository.Save(company)
-	return company
+	service.repository.Save(dataEntity)
+	return dataEntity
 }
 
 //FindAll Meethod
-func (service *service) FindAll() []entity.Company {
+func (service *service) FindAll() []entity.Project {
 	return service.repository.FindAll()
 }
 
 //FindById Meethod
-func (service *service) FindByID(id string) entity.Company {
+func (service *service) FindByID(id string) entity.Project {
 	return service.repository.FindByID(id)
 }
