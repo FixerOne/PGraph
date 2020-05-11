@@ -87,6 +87,12 @@ func main() {
 		setUpHeaders(c)
 		c.JSON(200, userController.FindAll())
 	})
+
+	server.GET("/project/GetAll", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.JSON(200, projectController.FindAll())
+	})
+
 	/**
 	server.POST("/user/Add", func(c *gin.Context) {
 		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
