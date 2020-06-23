@@ -116,6 +116,17 @@ func main() {
 		c.JSON(200, locationController.FindAllCountries())
 	})
 
+	server.GET("/protocol/GetAll", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.JSON(200, projectController.FindAll())
+	})
+
+	server.GET("/protocol/find/:id", func(c *gin.Context) {
+		setUpHeaders(c)
+		id := c.Param("id")
+		c.JSON(200, companyController.FindByID(id))
+	})
+
 	server.Run(":8686")
 
 }

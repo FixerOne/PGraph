@@ -1,4 +1,4 @@
-package company
+package protocol
 
 import (
 	"pgraph/entity"
