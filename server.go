@@ -19,6 +19,10 @@ import (
 	repoProject "pgraph/repository/project"
 	servProject "pgraph/service/project"
 
+	contProtocol "pgraph/controller/protocol"
+	repoProtocol "pgraph/repository/protocol"
+	servProtocol "pgraph/service/protocol"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -38,6 +42,10 @@ var (
 	projectRepository repoProject.Repository        = repoProject.New()
 	projectService    servProject.Service           = servProject.New(projectRepository)
 	projectController contProject.ProjectController = contProject.New(projectService)
+
+	protocolRepository repoProtocol.Repository         = repoProtocol.New()
+	protocolService    servProtocol.Service            = servProtocol.New(protocolRepository)
+	protocolController contProtocol.ProtocolController = contProtocol.New(protocolService)
 )
 
 func setupLogOutput() {
@@ -118,13 +126,13 @@ func main() {
 
 	server.GET("/protocol/GetAll", func(c *gin.Context) {
 		setUpHeaders(c)
-		c.JSON(200, projectController.FindAll())
+		c.JSON(200, protocolController.FindAll())
 	})
 
 	server.GET("/protocol/find/:id", func(c *gin.Context) {
 		setUpHeaders(c)
 		id := c.Param("id")
-		c.JSON(200, companyController.FindByID(id))
+		c.JSON(200, protocolController.FindByID(id))
 	})
 
 	server.Run(":8686")

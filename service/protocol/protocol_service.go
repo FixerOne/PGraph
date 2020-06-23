@@ -2,12 +2,12 @@ package protocol
 
 import (
 	"pgraph/entity"
-	repository "pgraph/repository/project"
+	repository "pgraph/repository/protocol"
 )
 
 //Service inerface
 type Service interface {
-	Save(entity.Project) entity.Protocol
+	Save(entity.Protocol) entity.Protocol
 	FindAll() []entity.Protocol
 	FindByID(id string) entity.Protocol
 }
