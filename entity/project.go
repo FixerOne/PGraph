@@ -11,4 +11,5 @@ type Project struct {
 	ProjectType string  `json:"DocumentType,omitempty"`
 	Created     string  `json:"Created" gorm:"default:CURRENT_TIMESTAMP"`
 	Updated     string  `json:"Updated" gorm:"default:CURRENT_TIMESTAMP"`
+	Description string  `json:"Description,omitempty"`
 }

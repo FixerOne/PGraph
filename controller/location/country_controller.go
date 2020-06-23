@@ -10,7 +10,9 @@ import (
 //LocationController inerface
 type LocationController interface {
 	FindOne() entity.Country
-	FindAll() []entity.Country
+	FindAllCountries() []entity.Country
+	FindStatesByCountry(id string) []entity.State
+	FindCitiesByState(id string) []entity.City
 	Save(ctx *gin.Context) entity.Country
 }
 
@@ -33,11 +35,20 @@ func (c *controller) Save(ctx *gin.Context) entity.Country {
 }
 
 //FindAll method
-func (c *controller) FindAll() []entity.Country {
-	return c.service.FindAll()
+func (c *controller) FindAllCountries() []entity.Country {
+	return c.service.FindAllCountries()
 }
 
 //FindAll method
 func (c *controller) FindOne() entity.Country {
-	return c.service.FindAll()[0]
+	return c.service.FindAllCountries()[0]
+}
+
+//FindStatesByCountry method
+func (c *controller) FindStatesByCountry(id string) []entity.State {
+	return c.service.FindStatesByCountry(id)
+}
+
+func (c *controller) FindCitiesByState(id string) []entity.City {
+	return c.service.FindCitiesByState(id)
 }

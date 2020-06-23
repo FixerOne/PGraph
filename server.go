@@ -19,12 +19,6 @@ import (
 	repoProject "pgraph/repository/project"
 	servProject "pgraph/service/project"
 
-	//servLocation "pgraph/service/location"
-
-	/*contCountry "pgraph/controller/country"
-	repoCountry "pgraph/repository/country"
-	servCountry "pgraph/service/country"*/
-
 	"github.com/gin-gonic/gin"
 )
 
@@ -44,10 +38,6 @@ var (
 	projectRepository repoProject.Repository        = repoProject.New()
 	projectService    servProject.Service           = servProject.New(projectRepository)
 	projectController contProject.ProjectController = contProject.New(projectService)
-
-	/*countryRepository repoCountry.Repository        = repoCountry.New()
-	countryService    servCountry.CompanyService    = servCountry.New(countryRepository)
-	countryController contCountry.CompanyController = contCountry.New(countryService)*/
 )
 
 func setupLogOutput() {
@@ -93,28 +83,37 @@ func main() {
 		c.JSON(200, projectController.FindAll())
 	})
 
-	/**
-	server.POST("/user/Add", func(c *gin.Context) {
-		c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-		c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-		c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
-		c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
-		c.JSON(200, companyController.Save(c))
-	})*/
+	server.GET("/project/find/:id", func(c *gin.Context) {
+		setUpHeaders(c)
+		id := c.Param("id")
+		c.JSON(200, companyController.FindByID(id))
+	})
 
 	server.GET("/location/GetCountries", func(c *gin.Context) {
 		setUpHeaders(c)
-		c.JSON(200, companyController.Save(c))
+		c.JSON(200, locationController.FindAllCountries())
 	})
 
 	server.GET("/location/GetStatesByCountry/:id_Country", func(c *gin.Context) {
 		setUpHeaders(c)
-		c.JSON(200, companyController.Save(c))
+		id := c.Param("id_Country")
+		c.JSON(200, locationController.FindStatesByCountry(id))
 	})
 
-	server.GET("/location/GetCityByState/:id_state", func(c *gin.Context) {
+	server.GET("/location/GetCitiesByState/:id_state", func(c *gin.Context) {
 		setUpHeaders(c)
-		c.JSON(200, companyController.Save(c))
+		id := c.Param("id_state")
+		c.JSON(200, locationController.FindCitiesByState(id))
+	})
+
+	server.GET("/location/GetSates", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.JSON(200, locationController.FindAllCountries())
+	})
+
+	server.GET("/location/GetCities", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.JSON(200, locationController.FindAllCountries())
 	})
 
 	server.Run(":8686")

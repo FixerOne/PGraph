@@ -8,7 +8,9 @@ import (
 //Service inerface
 type Service interface {
 	Save(entity.Country) entity.Country
-	FindAll() []entity.Country
+	FindAllCountries() []entity.Country
+	FindStatesByCountry(id string) []entity.State
+	FindCitiesByState(id string) []entity.City
 }
 
 type service struct {
@@ -29,6 +31,15 @@ func (service *service) Save(data entity.Country) entity.Country {
 }
 
 //FindAll Meethod
-func (service *service) FindAll() []entity.Country {
-	return service.repository.FindAll()
+func (service *service) FindAllCountries() []entity.Country {
+	return service.repository.FindAllCountries()
+}
+
+//FindAll Meethod
+func (service *service) FindStatesByCountry(id string) []entity.State {
+	return service.repository.FindStatesByCountry(id)
+}
+
+func (service *service) FindCitiesByState(id string) []entity.City {
+	return service.repository.FindCitiesByState(id)
 }
