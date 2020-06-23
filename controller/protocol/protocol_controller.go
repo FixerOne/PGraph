@@ -1,18 +1,18 @@
-package project
+package protocol
 
 import (
 	"pgraph/entity"
-	service "pgraph/service/project"
+	service "pgraph/service/protocol"
 
 	"github.com/gin-gonic/gin"
 )
 
-//ProjectController inerface
-type ProjectController interface {
-	FindOne() entity.Project
-	FindByID(id string) entity.Project
-	FindAll() []entity.Project
-	Save(ctx *gin.Context) entity.Project
+//ProtocolController inerface
+type ProtocolController interface {
+	FindOne() entity.Protocol
+	FindByID(id string) entity.Protocol
+	FindAll() []entity.Protocol
+	Save(ctx *gin.Context) entity.Protocol
 }
 
 type controller struct {
@@ -20,30 +20,30 @@ type controller struct {
 }
 
 //New constructor
-func New(service service.Service) ProjectController {
+func New(service service.Service) ProtocolController {
 	return &controller{
 		service: service,
 	}
 }
 
 //Save method
-func (c *controller) Save(ctx *gin.Context) entity.Project {
-	var dataEntity entity.Project
+func (c *controller) Save(ctx *gin.Context) entity.Protocol {
+	var dataEntity entity.Protocol
 	ctx.ShouldBindJSON(&dataEntity)
 	return c.service.Save(dataEntity)
 }
 
 //FindAll method
-func (c *controller) FindAll() []entity.Project {
+func (c *controller) FindAll() []entity.Protocol {
 	return c.service.FindAll()
 }
 
 //FindAll method
-func (c *controller) FindOne() entity.Project {
+func (c *controller) FindOne() entity.Protocol {
 	return c.service.FindAll()[1]
 }
 
 //FindAll method
-func (c *controller) FindByID(id string) entity.Project {
+func (c *controller) FindByID(id string) entity.Protocol {
 	return c.service.FindByID(id)
 }
