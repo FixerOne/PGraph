@@ -9,6 +9,7 @@ import (
 type Service interface {
 	Save(entity.Project) entity.Project
 	FindAll() []entity.Project
+	FindByCompanyID(id string) []entity.Project
 	FindByID(id string) entity.Project
 }
 
@@ -38,4 +39,9 @@ func (service *service) FindAll() []entity.Project {
 //FindById Meethod
 func (service *service) FindByID(id string) entity.Project {
 	return service.repository.FindByID(id)
+}
+
+//FindById Meethod
+func (service *service) FindByCompanyID(id string) []entity.Project {
+	return service.repository.FindByCompanyID(id)
 }

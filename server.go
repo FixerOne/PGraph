@@ -94,7 +94,13 @@ func main() {
 	server.GET("/project/find/:id", func(c *gin.Context) {
 		setUpHeaders(c)
 		id := c.Param("id")
-		c.JSON(200, companyController.FindByID(id))
+		c.JSON(200, projectController.FindByID(id))
+	})
+
+	server.GET("/project/GetByCompany/:id", func(c *gin.Context) {
+		setUpHeaders(c)
+		id := c.Param("id")
+		c.JSON(200, projectController.FindByCompanyID(id))
 	})
 
 	server.GET("/location/GetCountries", func(c *gin.Context) {

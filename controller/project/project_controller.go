@@ -12,6 +12,7 @@ type ProjectController interface {
 	FindOne() entity.Project
 	FindByID(id string) entity.Project
 	FindAll() []entity.Project
+	FindByCompanyID(id string) []entity.Project
 	Save(ctx *gin.Context) entity.Project
 }
 
@@ -36,6 +37,11 @@ func (c *controller) Save(ctx *gin.Context) entity.Project {
 //FindAll method
 func (c *controller) FindAll() []entity.Project {
 	return c.service.FindAll()
+}
+
+//FindAll method
+func (c *controller) FindByCompanyID(id string) []entity.Project {
+	return c.service.FindByCompanyID(id)
 }
 
 //FindAll method
