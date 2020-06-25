@@ -25,27 +25,4 @@ type User struct {
 	Mail              string    `json:"MailContact,omitempty" binding:"required" gorm:"type:varchar(256)"`
 	Password          string    `json:"Password,omitempty" binding:"required" gorm:"type:varchar(256)"`
 	UserType          string    `json:"UserTypeId,omitempty" binding:"required" gorm:"type:int4"`
-	//nationality_city_id_fk
 }
-
-/*
-id OK
-first_name OK
-last_name OK
-company_id OK
-birthday OK
-document OK
-document_type OK
-address OK
-phone OK
-nationality_city_id OK
-gender OK
-residence_city_id OK
-created OK
-updated OK
-data_state_id OK
-phone_contact
-mail
-password
-user_type
-*/
