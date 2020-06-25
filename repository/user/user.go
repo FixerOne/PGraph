@@ -14,6 +14,7 @@ type Repository interface {
 	Delete(data entity.Company)
 	FindAll() []entity.User
 	FindByID(id string) entity.Company
+	FindByCompanyID(id string) []entity.User
 }
 
 type repository struct {
@@ -42,7 +43,7 @@ func (r *repository) Delete(data entity.Company) {}
 
 func (r *repository) FindAll() []entity.User {
 	var entitites []entity.User
-	r.connection.Set("gorm:auto_preload", true).Find(&entitites)
+	r.connection.Set("gorm:auto_preload", true).Order("first_name asc").Find(&entitites)
 	return entitites
 }
 
@@ -51,4 +52,11 @@ func (r *repository) FindByID(id string) entity.Company {
 	r.connection.Set("gorm:auto_preload", true).First(&company, id)
 	//r.connection.Set("gorm:auto_preload", true).Where("id = ?", "13").First(&company)
 	return company
+}
+
+func (r *repository) FindByCompanyID(id string) []entity.User {
+	var data []entity.User
+	//r.connection.Set("gorm:auto_preload", true).Raw("SELECT * from public.get_projects_by_company_id(?);", id).Scan(&data)
+	r.connection.Set("gorm:auto_preload", true).Where("company_id = ?", id).Find(&data)
+	return data
 }

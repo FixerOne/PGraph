@@ -23,6 +23,10 @@ import (
 	repoProtocol "pgraph/repository/protocol"
 	servProtocol "pgraph/service/protocol"
 
+	contTesttype "pgraph/controller/testtype"
+	repoTesttype "pgraph/repository/testtype"
+	servTesttype "pgraph/service/testtype"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -46,6 +50,10 @@ var (
 	protocolRepository repoProtocol.Repository         = repoProtocol.New()
 	protocolService    servProtocol.Service            = servProtocol.New(protocolRepository)
 	protocolController contProtocol.ProtocolController = contProtocol.New(protocolService)
+
+	testtypeRepository repoTesttype.Repository         = repoTesttype.New()
+	testtypeService    servTesttype.Service            = servTesttype.New(testtypeRepository)
+	testtypeController contTesttype.TestTypeController = contTesttype.New(testtypeService)
 )
 
 func setupLogOutput() {
@@ -84,6 +92,12 @@ func main() {
 	server.GET("/user/GetAll", func(c *gin.Context) {
 		setUpHeaders(c)
 		c.JSON(200, userController.FindAll())
+	})
+
+	server.GET("/user/GetByCompany/:id", func(c *gin.Context) {
+		setUpHeaders(c)
+		id := c.Param("id")
+		c.JSON(200, userController.FindByCompanyID(id))
 	})
 
 	server.GET("/project/GetAll", func(c *gin.Context) {
@@ -139,6 +153,17 @@ func main() {
 		setUpHeaders(c)
 		id := c.Param("id")
 		c.JSON(200, protocolController.FindByID(id))
+	})
+
+	server.GET("/testType/GetAll", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.JSON(200, testtypeController.FindAll())
+	})
+
+	server.GET("/testType/GetByProject/:id", func(c *gin.Context) {
+		setUpHeaders(c)
+		id := c.Param("id")
+		c.JSON(200, testtypeController.FindByProjectID(id))
 	})
 
 	server.Run(":8686")

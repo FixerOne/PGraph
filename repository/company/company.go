@@ -41,7 +41,7 @@ func (r *repository) Delete(data entity.Company) {}
 
 func (r *repository) FindAll() []entity.Company {
 	var companies []entity.Company
-	r.connection.Set("gorm:auto_preload", true).Find(&companies)
+	r.connection.Set("gorm:auto_preload", true).Order("name asc").Find(&companies)
 	return companies
 }
 

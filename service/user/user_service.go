@@ -10,6 +10,7 @@ type Service interface {
 	Save(entity.Company) entity.Company
 	FindAll() []entity.User
 	FindByID(id string) entity.Company
+	FindByCompanyID(id string) []entity.User
 }
 
 type service struct {
@@ -38,4 +39,9 @@ func (service *service) FindAll() []entity.User {
 //FindById Meethod
 func (service *service) FindByID(id string) entity.Company {
 	return service.repository.FindByID(id)
+}
+
+//FindById Meethod
+func (service *service) FindByCompanyID(id string) []entity.User {
+	return service.repository.FindByCompanyID(id)
 }
