@@ -31,9 +31,9 @@ import (
 	repoTestquestion "pgraph/repository/testquestion"
 	servTestquestion "pgraph/service/testquestion"
 
-	contQuestion "pgraph/controller/question"
-	repoQuestion "pgraph/repository/question"
-	servQuestion "pgraph/service/question"
+	contBaseQuestion "pgraph/controller/basequestion"
+	repoBaseQuestion "pgraph/repository/basequestion"
+	servBaseQuestion "pgraph/service/basequestion"
 
 	"github.com/gin-gonic/gin"
 )
@@ -67,9 +67,9 @@ var (
 	testquestionService    servTestquestion.Service                = servTestquestion.New(testquestionRepository)
 	testquestionController contTestquestion.TestQuestionController = contTestquestion.New(testquestionService)
 
-	questionRepository repoQuestion.Repository         = repoQuestion.New()
-	questionService    servQuestion.Service            = servQuestion.New(questionRepository)
-	questionController contQuestion.QuestionController = contQuestion.New(questionService)
+	basequestionRepository repoBaseQuestion.Repository             = repoBaseQuestion.New()
+	basequestionService    servBaseQuestion.Service                = servBaseQuestion.New(basequestionRepository)
+	basequestionController contBaseQuestion.BaseQuestionController = contBaseQuestion.New(basequestionService)
 )
 
 func setupLogOutput() {
@@ -193,9 +193,9 @@ func main() {
 		c.JSON(200, testquestionController.FindByTestTypeID(id))
 	})
 
-	server.GET("/question/GetAll", func(c *gin.Context) {
+	server.GET("/basequestion/GetAll", func(c *gin.Context) {
 		setUpHeaders(c)
-		c.JSON(200, questionController.FindAll())
+		c.JSON(200, basequestionController.FindAll())
 	})
 
 	server.Run(":8686")

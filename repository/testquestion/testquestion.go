@@ -26,7 +26,7 @@ func New() Repository {
 
 	database.Init()
 	db := database.GetDB()
-	db.AutoMigrate(&entity.Testquestion{}, &entity.Questions{})
+	db.AutoMigrate(&entity.Testquestion{}, &entity.Teststypes{}, &entity.Basetestsquestions{})
 
 	return &repository{
 		connection: db,
