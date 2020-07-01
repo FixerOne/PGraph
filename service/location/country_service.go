@@ -10,7 +10,10 @@ type Service interface {
 	Save(entity.Country) entity.Country
 	FindAllCountries() []entity.Country
 	FindStatesByCountry(id string) []entity.State
+	FindAllStates() []entity.State
+	FindCitiesByCountry(id string) []entity.City
 	FindCitiesByState(id string) []entity.City
+	FindAllCities() []entity.City
 }
 
 type service struct {
@@ -40,6 +43,18 @@ func (service *service) FindStatesByCountry(id string) []entity.State {
 	return service.repository.FindStatesByCountry(id)
 }
 
+func (service *service) FindAllStates() []entity.State {
+	return service.repository.FindAllStates()
+}
+
+func (service *service) FindCitiesByCountry(id string) []entity.City {
+	return service.repository.FindCitiesByCountry(id)
+}
+
 func (service *service) FindCitiesByState(id string) []entity.City {
 	return service.repository.FindCitiesByState(id)
+}
+
+func (service *service) FindAllCities() []entity.City {
+	return service.repository.FindAllCities()
 }

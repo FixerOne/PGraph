@@ -12,7 +12,10 @@ type LocationController interface {
 	FindOne() entity.Country
 	FindAllCountries() []entity.Country
 	FindStatesByCountry(id string) []entity.State
+	FindAllStates() []entity.State
 	FindCitiesByState(id string) []entity.City
+	FindCitiesByCountry(id string) []entity.City
+	FindAllCities() []entity.City
 	Save(ctx *gin.Context) entity.Country
 }
 
@@ -49,6 +52,18 @@ func (c *controller) FindStatesByCountry(id string) []entity.State {
 	return c.service.FindStatesByCountry(id)
 }
 
+func (c *controller) FindAllStates() []entity.State {
+	return c.service.FindAllStates()
+}
+
+func (c *controller) FindCitiesByCountry(id string) []entity.City {
+	return c.service.FindCitiesByCountry(id)
+}
+
 func (c *controller) FindCitiesByState(id string) []entity.City {
 	return c.service.FindCitiesByState(id)
+}
+
+func (c *controller) FindAllCities() []entity.City {
+	return c.service.FindAllCities()
 }

@@ -19,7 +19,7 @@ type State struct {
 //Country data
 type Country struct {
 	ID        int    `gorm:"primary_key" json:"ID,omitempty"`
-	ShortName string `json:"ShortName,omitempty" binding:"required" gorm:"type:varchar(2)"`
+	Shortname string `json:"Shortname,omitempty" binding:"required" gorm:"type:varchar(2)"`
 	Name      string `json:"Name,omitempty" binding:"required" gorm:"type:varchar(150)"`
-	PhoneCode int    `json:"PhoneCode,omitempty" binding:"required"`
+	Phonecode int    `json:"Phonecode,omitempty" binding:"required"`
 }

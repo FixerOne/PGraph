@@ -138,10 +138,21 @@ func main() {
 		c.JSON(200, locationController.FindAllCountries())
 	})
 
+	server.GET("/location/GetStates", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.JSON(200, locationController.FindAllStates())
+	})
+
 	server.GET("/location/GetStatesByCountry/:id_Country", func(c *gin.Context) {
 		setUpHeaders(c)
 		id := c.Param("id_Country")
 		c.JSON(200, locationController.FindStatesByCountry(id))
+	})
+
+	server.GET("/location/GetCitiesByCountry/:id_Country", func(c *gin.Context) {
+		setUpHeaders(c)
+		id := c.Param("id_Country")
+		c.JSON(200, locationController.FindCitiesByCountry(id))
 	})
 
 	server.GET("/location/GetCitiesByState/:id_state", func(c *gin.Context) {
@@ -157,7 +168,7 @@ func main() {
 
 	server.GET("/location/GetCities", func(c *gin.Context) {
 		setUpHeaders(c)
-		c.JSON(200, locationController.FindAllCountries())
+		c.JSON(200, locationController.FindAllCities())
 	})
 
 	server.GET("/protocol/GetAll", func(c *gin.Context) {
