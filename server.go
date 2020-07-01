@@ -35,6 +35,10 @@ import (
 	repoBaseQuestion "pgraph/repository/basequestion"
 	servBaseQuestion "pgraph/service/basequestion"
 
+	contDocumentsType "pgraph/controller/documentstype"
+	repoDocumentsType "pgraph/repository/documentstype"
+	servDocumentsType "pgraph/service/documentstype"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -70,6 +74,10 @@ var (
 	basequestionRepository repoBaseQuestion.Repository             = repoBaseQuestion.New()
 	basequestionService    servBaseQuestion.Service                = servBaseQuestion.New(basequestionRepository)
 	basequestionController contBaseQuestion.BaseQuestionController = contBaseQuestion.New(basequestionService)
+
+	documentstypeRepository repoDocumentsType.Repository               = repoDocumentsType.New()
+	documentstypeService    servDocumentsType.Service                  = servDocumentsType.New(documentstypeRepository)
+	documentstypeController contDocumentsType.DocumentsTypesController = contDocumentsType.New(documentstypeService)
 )
 
 func setupLogOutput() {
@@ -207,6 +215,11 @@ func main() {
 	server.GET("/basequestion/GetAll", func(c *gin.Context) {
 		setUpHeaders(c)
 		c.JSON(200, basequestionController.FindAll())
+	})
+
+	server.GET("/documentstype/GetAll", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.JSON(200, documentstypeController.FindAll())
 	})
 
 	server.Run(":8686")

@@ -44,7 +44,7 @@ func (r *repository) Update(data entity.Country) {}
 
 func (r *repository) FindAllCountries() []entity.Country {
 	var data []entity.Country
-	r.connection.Set("gorm:auto_preload", true).Find(&data)
+	r.connection.Set("gorm:auto_preload", true).Order("name asc").Find(&data)
 	return data
 }
 

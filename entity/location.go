@@ -22,4 +22,5 @@ type Country struct {
 	Shortname string `json:"Shortname,omitempty" binding:"required" gorm:"type:varchar(2)"`
 	Name      string `json:"Name,omitempty" binding:"required" gorm:"type:varchar(150)"`
 	Phonecode int    `json:"Phonecode,omitempty" binding:"required"`
+	Active    bool   `json:"Active"`
 }
