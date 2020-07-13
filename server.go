@@ -39,6 +39,10 @@ import (
 	repoDocumentsType "pgraph/repository/documentstype"
 	servDocumentsType "pgraph/service/documentstype"
 
+	contBaseSections "pgraph/controller/basetestssections"
+	repoBaseSections "pgraph/repository/basetestssections"
+	servBaseSections "pgraph/service/basetestssections"
+
 	"github.com/gin-gonic/gin"
 )
 
@@ -78,6 +82,10 @@ var (
 	documentstypeRepository repoDocumentsType.Repository               = repoDocumentsType.New()
 	documentstypeService    servDocumentsType.Service                  = servDocumentsType.New(documentstypeRepository)
 	documentstypeController contDocumentsType.DocumentsTypesController = contDocumentsType.New(documentstypeService)
+
+	basesectionsRepository repoBaseSections.Repository            = repoBaseSections.New()
+	basesectionsService    servBaseSections.Service               = servBaseSections.New(basesectionsRepository)
+	basesectionsController contBaseSections.BaseSectionController = contBaseSections.New(basesectionsService)
 )
 
 func setupLogOutput() {
@@ -90,6 +98,14 @@ func setUpHeaders(c *gin.Context) {
 	c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
 	c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
 	c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
+
+	if c.Request.Method == "OPTIONS" {
+		c.AbortWithStatus(204)
+		return
+	}
+
+	c.Next()
+
 }
 
 func main() {
@@ -111,6 +127,11 @@ func main() {
 	server.POST("/company/Add", func(c *gin.Context) {
 		setUpHeaders(c)
 		c.JSON(200, companyController.Save(c))
+	})
+
+	server.OPTIONS("/company/Add", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.Writer.WriteHeader(200)
 	})
 
 	server.GET("/user/GetAll", func(c *gin.Context) {
@@ -179,6 +200,16 @@ func main() {
 		c.JSON(200, locationController.FindAllCities())
 	})
 
+	server.OPTIONS("/protocol/Add", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.Writer.WriteHeader(200)
+	})
+
+	server.POST("/protocol/Add", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.JSON(200, locationController.Save(c))
+	})
+
 	server.GET("/protocol/GetAll", func(c *gin.Context) {
 		setUpHeaders(c)
 		c.JSON(200, protocolController.FindAll())
@@ -212,9 +243,20 @@ func main() {
 		c.JSON(200, testquestionController.FindByTestTypeID(id))
 	})
 
+	server.GET("/basequestion/find/:id", func(c *gin.Context) {
+		setUpHeaders(c)
+		id := c.Param("id")
+		c.JSON(200, basequestionController.FindByID(id))
+	})
+
 	server.GET("/basequestion/GetAll", func(c *gin.Context) {
 		setUpHeaders(c)
 		c.JSON(200, basequestionController.FindAll())
+	})
+
+	server.GET("/basesection/GetAll", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.JSON(200, basesectionsController.FindAll())
 	})
 
 	server.GET("/documentstype/GetAll", func(c *gin.Context) {

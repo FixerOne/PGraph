@@ -26,7 +26,7 @@ func New() Repository {
 
 	database.Init()
 	db := database.GetDB()
-	db.AutoMigrate(&entity.Company{}, &entity.City{}, &entity.DataState{})
+	db.AutoMigrate(&entity.Documentstypes{}, &entity.Company{}, &entity.City{}, &entity.DataState{})
 
 	return &repository{
 		connection: db,
@@ -50,13 +50,11 @@ func (r *repository) FindAll() []entity.User {
 func (r *repository) FindByID(id string) entity.Company {
 	var company entity.Company
 	r.connection.Set("gorm:auto_preload", true).First(&company, id)
-	//r.connection.Set("gorm:auto_preload", true).Where("id = ?", "13").First(&company)
 	return company
 }
 
 func (r *repository) FindByCompanyID(id string) []entity.User {
 	var data []entity.User
-	//r.connection.Set("gorm:auto_preload", true).Raw("SELECT * from public.get_projects_by_company_id(?);", id).Scan(&data)
 	r.connection.Set("gorm:auto_preload", true).Where("company_id = ?", id).Find(&data)
 	return data
 }

@@ -3,6 +3,7 @@ module pgraph
 go 1.14
 
 require (
+	github.com/gin-contrib/cors v1.3.1 // indirect
 	//github.com/gedex/inflector v0.0.0-20170307190818-16278e9db813 // indirect
 	github.com/gin-gonic/gin v1.6.1
 	github.com/jinzhu/gorm v1.9.12
