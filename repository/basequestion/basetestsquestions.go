@@ -37,7 +37,9 @@ func (r *repository) Save(data entity.Basetestsquestions) {
 	r.connection.Save(&data)
 }
 
-func (r *repository) Update(data entity.Basetestsquestions) {}
+func (r *repository) Update(data entity.Basetestsquestions) {
+	r.connection.Save(&data)
+}
 
 func (r *repository) Delete(data entity.Basetestsquestions) {}
 

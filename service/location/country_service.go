@@ -8,6 +8,7 @@ import (
 //Service inerface
 type Service interface {
 	Save(entity.Country) entity.Country
+	UpdateCountry(entity.Country) entity.Country
 	FindAllCountries() []entity.Country
 	FindStatesByCountry(id string) []entity.State
 	FindAllStates() []entity.State
@@ -29,6 +30,11 @@ func New(repository repository.Repository) Service {
 
 //Save method
 func (service *service) Save(data entity.Country) entity.Country {
+	service.repository.Save(data)
+	return data
+}
+
+func (service *service) UpdateCountry(data entity.Country) entity.Country {
 	service.repository.Save(data)
 	return data
 }

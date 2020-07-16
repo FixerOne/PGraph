@@ -200,6 +200,16 @@ func main() {
 		c.JSON(200, locationController.FindAllCities())
 	})
 
+	server.OPTIONS("/location/UpdateCountry", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.Writer.WriteHeader(200)
+	})
+
+	server.POST("/location/UpdateCountry", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.JSON(200, locationController.UpdateCountry(c))
+	})
+
 	server.OPTIONS("/protocol/Add", func(c *gin.Context) {
 		setUpHeaders(c)
 		c.Writer.WriteHeader(200)
@@ -207,7 +217,17 @@ func main() {
 
 	server.POST("/protocol/Add", func(c *gin.Context) {
 		setUpHeaders(c)
-		c.JSON(200, locationController.Save(c))
+		c.JSON(200, protocolController.Save(c))
+	})
+
+	server.OPTIONS("/protocol/Update", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.Writer.WriteHeader(200)
+	})
+
+	server.POST("/protocol/Update", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.JSON(200, protocolController.Update(c))
 	})
 
 	server.GET("/protocol/GetAll", func(c *gin.Context) {
@@ -254,14 +274,35 @@ func main() {
 		c.JSON(200, basequestionController.FindAll())
 	})
 
+	server.POST("/basequestion/Add", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.JSON(200, basequestionController.Save(c))
+	})
+
 	server.GET("/basesection/GetAll", func(c *gin.Context) {
 		setUpHeaders(c)
 		c.JSON(200, basesectionsController.FindAll())
 	})
 
+	server.GET("/documentstype/find/:id", func(c *gin.Context) {
+		setUpHeaders(c)
+		id := c.Param("id")
+		c.JSON(200, documentstypeController.FindByID(id))
+	})
+
 	server.GET("/documentstype/GetAll", func(c *gin.Context) {
 		setUpHeaders(c)
 		c.JSON(200, documentstypeController.FindAll())
+	})
+
+	server.OPTIONS("/documentstype/Update", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.Writer.WriteHeader(200)
+	})
+
+	server.POST("/documentstype/Update", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.JSON(200, documentstypeController.Update(c))
 	})
 
 	server.Run(":8686")

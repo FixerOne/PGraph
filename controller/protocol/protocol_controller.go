@@ -13,6 +13,7 @@ type ProtocolController interface {
 	FindByID(id string) entity.Protocol
 	FindAll() []entity.Protocol
 	Save(ctx *gin.Context) entity.Protocol
+	Update(ctx *gin.Context) entity.Protocol
 }
 
 type controller struct {
@@ -31,6 +32,13 @@ func (c *controller) Save(ctx *gin.Context) entity.Protocol {
 	var dataEntity entity.Protocol
 	ctx.ShouldBindJSON(&dataEntity)
 	return c.service.Save(dataEntity)
+}
+
+//Update method
+func (c *controller) Update(ctx *gin.Context) entity.Protocol {
+	var dataEntity entity.Protocol
+	ctx.ShouldBindJSON(&dataEntity)
+	return c.service.Update(dataEntity)
 }
 
 //FindAll method

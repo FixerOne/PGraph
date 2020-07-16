@@ -17,6 +17,7 @@ type LocationController interface {
 	FindCitiesByCountry(id string) []entity.City
 	FindAllCities() []entity.City
 	Save(ctx *gin.Context) entity.Country
+	UpdateCountry(ctx *gin.Context) entity.Country
 }
 
 type controller struct {
@@ -32,6 +33,12 @@ func New(service service.Service) LocationController {
 
 //Save method
 func (c *controller) Save(ctx *gin.Context) entity.Country {
+	var ent entity.Country
+	ctx.ShouldBindJSON(&ent)
+	return c.service.Save(ent)
+}
+
+func (c *controller) UpdateCountry(ctx *gin.Context) entity.Country {
 	var ent entity.Country
 	ctx.ShouldBindJSON(&ent)
 	return c.service.Save(ent)

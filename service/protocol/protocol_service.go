@@ -8,6 +8,7 @@ import (
 //Service inerface
 type Service interface {
 	Save(entity.Protocol) entity.Protocol
+	Update(entity.Protocol) entity.Protocol
 	FindAll() []entity.Protocol
 	FindByID(id string) entity.Protocol
 }
@@ -27,6 +28,13 @@ func New(repository repository.Repository) Service {
 func (service *service) Save(dataEntity entity.Protocol) entity.Protocol {
 	//service.companies = append(service.companies, company)
 	service.repository.Save(dataEntity)
+	return dataEntity
+}
+
+//Update method
+func (service *service) Update(dataEntity entity.Protocol) entity.Protocol {
+	//service.companies = append(service.companies, company)
+	service.repository.Update(dataEntity)
 	return dataEntity
 }
 

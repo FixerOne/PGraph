@@ -36,14 +36,16 @@ func (r *repository) Save(data entity.Protocol) {
 	r.connection.Save(&data)
 }
 
-func (r *repository) Update(data entity.Protocol) {}
+func (r *repository) Update(data entity.Protocol) {
+	r.connection.Save(&data)
+}
 
 func (r *repository) Delete(data entity.Protocol) {}
 
 func (r *repository) FindAll() []entity.Protocol {
-	var entitites []entity.Protocol
-	r.connection.Set("gorm:auto_preload", true).Find(&entitites)
-	return entitites
+	var data []entity.Protocol
+	r.connection.Set("gorm:auto_preload", true).Order("name asc").Find(&data)
+	return data
 }
 
 func (r *repository) FindByID(id string) entity.Protocol {

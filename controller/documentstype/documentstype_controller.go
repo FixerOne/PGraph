@@ -14,6 +14,7 @@ type DocumentsTypesController interface {
 	FindAll() []entity.Documentstypes
 	FindByProjectID(id string) []entity.Documentstypes
 	Save(ctx *gin.Context) entity.Documentstypes
+	Update(ctx *gin.Context) entity.Documentstypes
 }
 
 type controller struct {
@@ -29,6 +30,12 @@ func New(service service.Service) DocumentsTypesController {
 
 //Save method
 func (c *controller) Save(ctx *gin.Context) entity.Documentstypes {
+	var data entity.Documentstypes
+	ctx.ShouldBindJSON(&data)
+	return c.service.Save(data)
+}
+
+func (c *controller) Update(ctx *gin.Context) entity.Documentstypes {
 	var data entity.Documentstypes
 	ctx.ShouldBindJSON(&data)
 	return c.service.Save(data)

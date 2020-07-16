@@ -10,7 +10,7 @@ import (
 //Repository company
 type Repository interface {
 	Save(data entity.Country)
-	Update(data entity.Country)
+	UpdateCountry(data entity.Country)
 	//Delete(data entity.Country)
 	FindAllCountries() []entity.Country
 	FindStatesByCountry(id string) []entity.State
@@ -40,7 +40,9 @@ func (r *repository) Save(data entity.Country) {
 	r.connection.Save(&data)
 }
 
-func (r *repository) Update(data entity.Country) {}
+func (r *repository) UpdateCountry(data entity.Country) {
+	r.connection.Save(&data)
+}
 
 func (r *repository) FindAllCountries() []entity.Country {
 	var data []entity.Country
