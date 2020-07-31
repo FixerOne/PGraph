@@ -26,56 +26,113 @@ type repository struct {
 
 //New Constructor
 func New() Repository {
+	return &repository{}
+}
+
+func (r *repository) Save(data entity.Country) {
 
 	database.Init()
 	db := database.GetDB()
 	db.AutoMigrate(&entity.Country{}, &entity.State{}, &entity.City{})
 
-	return &repository{
-		connection: db,
-	}
-}
+	db.Save(&data)
 
-func (r *repository) Save(data entity.Country) {
-	r.connection.Save(&data)
+	db.Close()
+
 }
 
 func (r *repository) UpdateCountry(data entity.Country) {
-	r.connection.Save(&data)
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Country{}, &entity.State{}, &entity.City{})
+
+	db.Save(&data)
+
+	db.Close()
+
 }
 
 func (r *repository) FindAllCountries() []entity.Country {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Country{}, &entity.State{}, &entity.City{})
+
 	var data []entity.Country
-	r.connection.Set("gorm:auto_preload", true).Order("name asc").Find(&data)
+	db.Set("gorm:auto_preload", true).Order("name asc").Find(&data)
+
+	db.Close()
+
 	return data
 }
 
 func (r *repository) FindAllStates() []entity.State {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Country{}, &entity.State{}, &entity.City{})
+
 	var data []entity.State
-	r.connection.Set("gorm:auto_preload", true).Order("country_id asc").Find(&data)
+	db.Set("gorm:auto_preload", true).Order("country_id asc").Find(&data)
+
+	db.Close()
+
 	return data
 }
 
 func (r *repository) FindStatesByCountry(id string) []entity.State {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Country{}, &entity.State{}, &entity.City{})
+
 	var data []entity.State
-	r.connection.Set("gorm:auto_preload", true).Raw("SELECT * from public.get_states_by_country_id(?);", id).Scan(&data)
+	db.Set("gorm:auto_preload", true).Raw("SELECT * from public.get_states_by_country_id(?);", id).Scan(&data)
+
+	db.Close()
+
 	return data
 }
 
 func (r *repository) FindCitiesByCountry(id string) []entity.City {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Country{}, &entity.State{}, &entity.City{})
+
 	var data []entity.City
-	r.connection.Set("gorm:auto_preload", true).Joins("JOIN states on states.id=cities.state_id").Where("country_id = ?", id).Find(&data)
+	db.Set("gorm:auto_preload", true).Joins("JOIN states on states.id=cities.state_id").Where("country_id = ?", id).Find(&data)
+
+	db.Close()
+
 	return data
 }
 
 func (r *repository) FindCitiesByState(id string) []entity.City {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Country{}, &entity.State{}, &entity.City{})
+
 	var data []entity.City
-	r.connection.Set("gorm:auto_preload", true).Raw("SELECT * from public.get_cities_by_state_id(?);", id).Scan(&data)
+	db.Set("gorm:auto_preload", true).Raw("SELECT * from public.get_cities_by_state_id(?);", id).Scan(&data)
+
+	db.Close()
+
 	return data
 }
 
 func (r *repository) FindAllCities() []entity.City {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Country{}, &entity.State{}, &entity.City{})
+
 	var data []entity.City
-	r.connection.Set("gorm:auto_preload", true).Order("name asc").Find(&data)
+	db.Set("gorm:auto_preload", true).Order("name asc").Find(&data)
+
+	db.Close()
+
 	return data
 }

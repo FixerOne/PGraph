@@ -25,18 +25,19 @@ type repository struct {
 
 //New constructor
 func New() Repository {
+	return &repository{}
+}
+
+func (r *repository) Save(data entity.Company) {
 
 	database.Init()
 	db := database.GetDB()
 	db.AutoMigrate(&entity.Documentstypes{}, &entity.Company{}, &entity.City{}, &entity.DataState{})
 
-	return &repository{
-		connection: db,
-	}
-}
+	db.Save(&data)
 
-func (r *repository) Save(data entity.Company) {
-	r.connection.Save(&data)
+	db.Close()
+
 }
 
 func (r *repository) Update(data entity.Company) {}
@@ -44,29 +45,69 @@ func (r *repository) Update(data entity.Company) {}
 func (r *repository) Delete(data entity.Company) {}
 
 func (r *repository) FindAll() []entity.User {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Documentstypes{}, &entity.Company{}, &entity.City{}, &entity.DataState{})
+
 	var entitites []entity.User
-	r.connection.Set("gorm:auto_preload", true).Order("first_name asc").Find(&entitites)
+	db.Set("gorm:auto_preload", true).Order("first_name asc").Find(&entitites)
+
+	db.Close()
+
 	return entitites
 }
 
 func (r *repository) FindByID(id string) entity.Company {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Documentstypes{}, &entity.Company{}, &entity.City{}, &entity.DataState{})
+
 	var company entity.Company
-	r.connection.Set("gorm:auto_preload", true).First(&company, id)
+	db.Set("gorm:auto_preload", true).First(&company, id)
+
+	db.Close()
+
 	return company
 }
 
 func (r *repository) FindByCompanyID(id string) []entity.User {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Documentstypes{}, &entity.Company{}, &entity.City{}, &entity.DataState{})
+
 	var data []entity.User
-	r.connection.Set("gorm:auto_preload", true).Where("company_id = ?", id).Find(&data)
+	db.Set("gorm:auto_preload", true).Where("company_id = ?", id).Find(&data)
+
+	db.Close()
+
 	return data
 }
 
 func (r *repository) FindByMail(data entity.User) entity.User {
-	r.connection.Set("gorm:auto_preload", true).Where("mail = ?", data.Mail).Find(&data)
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Documentstypes{}, &entity.Company{}, &entity.City{}, &entity.DataState{})
+
+	db.Set("gorm:auto_preload", true).Where("mail = ?", data.Mail).Find(&data)
+
+	db.Close()
+
 	return data
 }
 
 func (r *repository) Login(data entity.User) entity.User {
-	r.connection.Set("gorm:auto_preload", true).Where("mail = ? AND password = ?", data.Mail, data.Password).Find(&data)
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Documentstypes{}, &entity.Company{}, &entity.City{}, &entity.DataState{})
+
+	db.Set("gorm:auto_preload", true).Where("mail = ? AND password = ?", data.Mail, data.Password).Find(&data)
+
+	db.Close()
+
 	return data
 }

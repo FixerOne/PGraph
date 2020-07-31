@@ -23,18 +23,19 @@ type repository struct {
 
 //New constructor
 func New() Repository {
+	return &repository{}
+}
+
+func (r *repository) Save(data entity.Basetestssections) {
 
 	database.Init()
 	db := database.GetDB()
 	db.AutoMigrate(&entity.Basetestssections{})
 
-	return &repository{
-		connection: db,
-	}
-}
+	db.Save(&data)
 
-func (r *repository) Save(data entity.Basetestssections) {
-	r.connection.Save(&data)
+	defer db.Close()
+
 }
 
 func (r *repository) Update(data entity.Basetestssections) {}
@@ -42,20 +43,44 @@ func (r *repository) Update(data entity.Basetestssections) {}
 func (r *repository) Delete(data entity.Basetestssections) {}
 
 func (r *repository) FindAll() []entity.Basetestssections {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Basetestssections{})
+
 	var entitites []entity.Basetestssections
-	//r.connection.Set("gorm:auto_preload", true).Order("name asc").Find(&entitites)
-	r.connection.Set("gorm:auto_preload", true).Find(&entitites)
+
+	db.Set("gorm:auto_preload", true).Find(&entitites)
+
+	defer db.Close()
+
 	return entitites
 }
 
 func (r *repository) FindByID(id string) entity.Basetestssections {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Basetestssections{})
+
 	var data entity.Basetestssections
-	r.connection.Set("gorm:auto_preload", true).First(&data, id)
+	db.Set("gorm:auto_preload", true).First(&data, id)
+
+	defer db.Close()
+
 	return data
 }
 
 func (r *repository) FindByTestTypeID(id string) []entity.Basetestssections {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Basetestssections{})
+
 	var data []entity.Basetestssections
-	r.connection.Set("gorm:auto_preload", true).Where("teststypes_id = ?", id).Find(&data)
+	db.Set("gorm:auto_preload", true).Where("teststypes_id = ?", id).Find(&data)
+
+	defer db.Close()
+
 	return data
 }

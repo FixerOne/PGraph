@@ -11,8 +11,8 @@ import (
 )
 
 var (
-	Repository repository.Repository         = repository.New()
-	Service    service.Service               = service.New(Repository)
+	Repository repository.Repository             = repository.New()
+	Service    service.Service                   = service.New(Repository)
 	Controller controller.TestQuestionController = controller.New(Service)
 )
 

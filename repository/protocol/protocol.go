@@ -22,34 +22,58 @@ type repository struct {
 
 //New constructor
 func New() Repository {
+	return &repository{}
+}
+
+func (r *repository) Save(data entity.Protocol) {
 
 	database.Init()
 	db := database.GetDB()
 	db.AutoMigrate(&entity.Protocol{})
 
-	return &repository{
-		connection: db,
-	}
-}
+	db.Save(&data)
 
-func (r *repository) Save(data entity.Protocol) {
-	r.connection.Save(&data)
+	db.Close()
+
 }
 
 func (r *repository) Update(data entity.Protocol) {
-	r.connection.Save(&data)
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Protocol{})
+
+	db.Save(&data)
+
+	db.Close()
 }
 
 func (r *repository) Delete(data entity.Protocol) {}
 
 func (r *repository) FindAll() []entity.Protocol {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Protocol{})
+
 	var data []entity.Protocol
-	r.connection.Set("gorm:auto_preload", true).Order("name asc").Find(&data)
+	db.Set("gorm:auto_preload", true).Order("name asc").Find(&data)
+
+	db.Close()
+
 	return data
 }
 
 func (r *repository) FindByID(id string) entity.Protocol {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Protocol{})
+
 	var dataEntity entity.Protocol
-	r.connection.Set("gorm:auto_preload", true).First(&dataEntity, id)
+	db.Set("gorm:auto_preload", true).First(&dataEntity, id)
+
+	db.Close()
+
 	return dataEntity
 }

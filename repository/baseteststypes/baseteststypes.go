@@ -1,7 +1,7 @@
 package baseteststypes
 
 import (
-	database "pgraph/database"
+	"pgraph/database"
 	"pgraph/entity"
 
 	"github.com/jinzhu/gorm"
@@ -23,18 +23,18 @@ type repository struct {
 
 //New constructor
 func New() Repository {
+	return &repository{}
+}
+
+func (r *repository) Save(data entity.Baseteststypes) {
 
 	database.Init()
 	db := database.GetDB()
 	db.AutoMigrate(&entity.Baseteststypes{})
 
-	return &repository{
-		connection: db,
-	}
-}
+	db.Save(&data)
 
-func (r *repository) Save(data entity.Baseteststypes) {
-	r.connection.Save(&data)
+	defer db.Close()
 }
 
 func (r *repository) Update(data entity.Baseteststypes) {}
@@ -42,20 +42,44 @@ func (r *repository) Update(data entity.Baseteststypes) {}
 func (r *repository) Delete(data entity.Baseteststypes) {}
 
 func (r *repository) FindAll() []entity.Baseteststypes {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Baseteststypes{})
+
 	var entitites []entity.Baseteststypes
-	//r.connection.Set("gorm:auto_preload", true).Order("name asc").Find(&entitites)
-	r.connection.Set("gorm:auto_preload", true).Find(&entitites)
+
+	db.Set("gorm:auto_preload", true).Find(&entitites)
+
+	defer db.Close()
+
 	return entitites
 }
 
 func (r *repository) FindByID(id string) entity.Baseteststypes {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Baseteststypes{})
+
 	var data entity.Baseteststypes
-	r.connection.Set("gorm:auto_preload", true).First(&data, id)
+	db.Set("gorm:auto_preload", true).First(&data, id)
+
+	db.Close()
+
 	return data
 }
 
 func (r *repository) FindByTestTypeID(id string) []entity.Baseteststypes {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Baseteststypes{})
+
 	var data []entity.Baseteststypes
-	r.connection.Set("gorm:auto_preload", true).Where("teststypes_id = ?", id).Find(&data)
+	db.Set("gorm:auto_preload", true).Where("teststypes_id = ?", id).Find(&data)
+
+	defer db.Close()
+
 	return data
 }

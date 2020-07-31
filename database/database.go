@@ -9,6 +9,7 @@ import (
 
 var db *gorm.DB //database
 
+//Init Database
 func Init() {
 
 	/*e := godotenv.Load() //Load .env file
@@ -35,7 +36,15 @@ func Init() {
 	}
 
 	db = conn
+	//defer db.Close()
+
 	//db.Debug().AutoMigrate(&Account{}, &Contact{}) //Database migration
+}
+
+//Close conection
+func Close() {
+
+	defer db.Close()
 }
 
 //GetDB returns a handle to the DB object

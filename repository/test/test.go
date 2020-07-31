@@ -22,34 +22,57 @@ type repository struct {
 
 //New constructor
 func New() Repository {
+	return &repository{}
+}
+
+func (r *repository) Save(data entity.Test) {
 
 	database.Init()
 	db := database.GetDB()
 	db.AutoMigrate(&entity.Test{})
 
-	return &repository{
-		connection: db,
-	}
-}
+	db.Save(&data)
 
-func (r *repository) Save(data entity.Test) {
-	r.connection.Save(&data)
+	db.Close()
 }
 
 func (r *repository) Update(data entity.Test) {
-	r.connection.Save(&data)
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Test{})
+
+	db.Save(&data)
+
+	db.Close()
 }
 
 func (r *repository) Delete(data entity.Test) {}
 
 func (r *repository) FindAll() []entity.Test {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Test{})
+
 	var data []entity.Test
-	r.connection.Set("gorm:auto_preload", true).Order("id asc").Find(&data)
+	db.Set("gorm:auto_preload", true).Order("id asc").Find(&data)
+
+	db.Close()
+
 	return data
 }
 
 func (r *repository) FindByID(id string) entity.Test {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Test{})
+
 	var dataEntity entity.Test
-	r.connection.Set("gorm:auto_preload", true).First(&dataEntity, id)
+	db.Set("gorm:auto_preload", true).First(&dataEntity, id)
+
+	db.Close()
+
 	return dataEntity
 }

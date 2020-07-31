@@ -23,18 +23,19 @@ type repository struct {
 
 //New constructor
 func New() Repository {
-
-	database.Init()
-	db := database.GetDB()
-	db.AutoMigrate(&entity.Company{}, &entity.City{}, &entity.DataState{})
-
-	return &repository{
-		connection: db,
-	}
+	return &repository{}
 }
 
 func (r *repository) Save(data entity.Project) {
-	r.connection.Save(&data)
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(entity.Project{})
+
+	db.Save(&data)
+
+	db.Close()
+
 }
 
 func (r *repository) Update(data entity.Project) {}
@@ -42,19 +43,43 @@ func (r *repository) Update(data entity.Project) {}
 func (r *repository) Delete(data entity.Project) {}
 
 func (r *repository) FindAll() []entity.Project {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(entity.Project{})
+
 	var entitites []entity.Project
-	r.connection.Set("gorm:auto_preload", true).Find(&entitites)
+	db.Set("gorm:auto_preload", true).Find(&entitites)
+
+	db.Close()
+
 	return entitites
 }
 
 func (r *repository) FindByID(id string) entity.Project {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(entity.Project{})
+
 	var dataEntity entity.Project
-	r.connection.Set("gorm:auto_preload", true).First(&dataEntity, id)
+	db.Set("gorm:auto_preload", true).First(&dataEntity, id)
+
+	db.Close()
+
 	return dataEntity
 }
 
 func (r *repository) FindByCompanyID(id string) []entity.Project {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(entity.Project{})
+
 	var data []entity.Project
-	r.connection.Set("gorm:auto_preload", true).Where("company_id = ?", id).Find(&data)
+	db.Set("gorm:auto_preload", true).Where("company_id = ?", id).Find(&data)
+
+	db.Close()
+
 	return data
 }
