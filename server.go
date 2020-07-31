@@ -2,25 +2,7 @@ package main
 
 import (
 	"io"
-	"net/http"
 	"os"
-	contCompany "pgraph/controller/company"
-	"pgraph/entity"
-	repoCompany "pgraph/repository/company"
-	servCompany "pgraph/service/company"
-	"time"
-
-	contLocation "pgraph/controller/location"
-	repoLocation "pgraph/repository/location"
-	servLocation "pgraph/service/location"
-
-	contUser "pgraph/controller/user"
-	repoUser "pgraph/repository/user"
-	servUser "pgraph/service/user"
-
-	contProject "pgraph/controller/project"
-	repoProject "pgraph/repository/project"
-	servProject "pgraph/service/project"
 
 	contTest "pgraph/controller/test"
 	repoTest "pgraph/repository/test"
@@ -55,13 +37,15 @@ import (
 	servBaseTestsTypes "pgraph/service/baseteststypes"
 
 	handlerBasic "pgraph/handler/basic"
+	handlerCompany "pgraph/handler/company"
+	handlerProject "pgraph/handler/project"
+	handlerUser "pgraph/handler/user"
 
-	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
 var (
-	companyRepository repoCompany.Repository        = repoCompany.New()
+	/*companyRepository repoCompany.Repository        = repoCompany.New()
 	companyService    servCompany.Service           = servCompany.New(companyRepository)
 	companyController contCompany.CompanyController = contCompany.New(companyService)
 
@@ -75,7 +59,7 @@ var (
 
 	projectRepository repoProject.Repository        = repoProject.New()
 	projectService    servProject.Service           = servProject.New(projectRepository)
-	projectController contProject.ProjectController = contProject.New(projectService)
+	projectController contProject.ProjectController = contProject.New(projectService)*/
 
 	testRepository repoTest.Repository     = repoTest.New()
 	testService    servTest.Service        = servTest.New(testRepository)
@@ -138,7 +122,16 @@ func main() {
 	basicHandler := handlerBasic.New(server)
 	basicHandler.StartHandlers()
 
-	server.GET("/company/find/:id", func(c *gin.Context) {
+	companyHandler := handlerCompany.New(server)
+	companyHandler.StartHandlers()
+
+	userHandler := handlerUser.New(server)
+	userHandler.StartHandlers()
+
+	projectHandler := handlerProject.New(server)
+	projectHandler.StartHandlers()
+
+	/*server.GET("/company/find/:id", func(c *gin.Context) {
 		setUpHeaders(c)
 		id := c.Param("id")
 		c.JSON(200, companyController.FindByID(id))
@@ -185,7 +178,7 @@ func main() {
 		setUpHeaders(c)
 		id := c.Param("id")
 		c.JSON(200, projectController.FindByCompanyID(id))
-	})
+	})*/
 
 	server.GET("/test/GetAll", func(c *gin.Context) {
 		setUpHeaders(c)
@@ -329,12 +322,12 @@ func main() {
 		c.JSON(200, documentstypeController.Update(c))
 	})
 
-	server.OPTIONS("/login", func(c *gin.Context) {
+	/*server.OPTIONS("/login", func(c *gin.Context) {
 		setUpHeaders(c)
 		c.Writer.WriteHeader(200)
-	})
+	})*/
 
-	server.POST("/login", func(c *gin.Context) {
+	/*server.POST("/login", func(c *gin.Context) {
 		setUpHeaders(c)
 		var data = userController.Login(c)
 
@@ -375,7 +368,7 @@ func main() {
 		c.JSON(200, data)
 		//c.String(200, tokenString)
 
-	})
+	})*/
 
 	server.Run(":8686")
 
