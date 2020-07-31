@@ -10,6 +10,8 @@ type Service interface {
 	Save(entity.Company) entity.Company
 	FindAll() []entity.User
 	FindByID(id string) entity.Company
+	FindByMail(entity.User) entity.User
+	Login(entity.User) entity.User
 	FindByCompanyID(id string) []entity.User
 }
 
@@ -44,4 +46,12 @@ func (service *service) FindByID(id string) entity.Company {
 //FindById Meethod
 func (service *service) FindByCompanyID(id string) []entity.User {
 	return service.repository.FindByCompanyID(id)
+}
+
+func (service *service) FindByMail(user entity.User) entity.User {
+	return service.repository.FindByMail(user)
+}
+
+func (service *service) Login(user entity.User) entity.User {
+	return service.repository.Login(user)
 }

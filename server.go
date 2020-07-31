@@ -2,10 +2,13 @@ package main
 
 import (
 	"io"
+	"net/http"
 	"os"
 	contCompany "pgraph/controller/company"
+	"pgraph/entity"
 	repoCompany "pgraph/repository/company"
 	servCompany "pgraph/service/company"
+	"time"
 
 	contLocation "pgraph/controller/location"
 	repoLocation "pgraph/repository/location"
@@ -18,6 +21,10 @@ import (
 	contProject "pgraph/controller/project"
 	repoProject "pgraph/repository/project"
 	servProject "pgraph/service/project"
+
+	contTest "pgraph/controller/test"
+	repoTest "pgraph/repository/test"
+	servTest "pgraph/service/test"
 
 	contProtocol "pgraph/controller/protocol"
 	repoProtocol "pgraph/repository/protocol"
@@ -43,6 +50,13 @@ import (
 	repoBaseSections "pgraph/repository/basetestssections"
 	servBaseSections "pgraph/service/basetestssections"
 
+	contBaseTestsTypes "pgraph/controller/baseteststypes"
+	repoBaseTestsTypes "pgraph/repository/baseteststypes"
+	servBaseTestsTypes "pgraph/service/baseteststypes"
+
+	handlerBasic "pgraph/handler/basic"
+
+	"github.com/dgrijalva/jwt-go"
 	"github.com/gin-gonic/gin"
 )
 
@@ -62,6 +76,10 @@ var (
 	projectRepository repoProject.Repository        = repoProject.New()
 	projectService    servProject.Service           = servProject.New(projectRepository)
 	projectController contProject.ProjectController = contProject.New(projectService)
+
+	testRepository repoTest.Repository     = repoTest.New()
+	testService    servTest.Service        = servTest.New(testRepository)
+	testController contTest.TestController = contTest.New(testService)
 
 	protocolRepository repoProtocol.Repository         = repoProtocol.New()
 	protocolService    servProtocol.Service            = servProtocol.New(protocolRepository)
@@ -86,6 +104,10 @@ var (
 	basesectionsRepository repoBaseSections.Repository            = repoBaseSections.New()
 	basesectionsService    servBaseSections.Service               = servBaseSections.New(basesectionsRepository)
 	basesectionsController contBaseSections.BaseSectionController = contBaseSections.New(basesectionsService)
+
+	baseteststypesRepository repoBaseTestsTypes.Repository          = repoBaseTestsTypes.New()
+	baseteststypesService    servBaseTestsTypes.Service             = servBaseTestsTypes.New(baseteststypesRepository)
+	baseteststypesController contBaseTestsTypes.BaseTypesController = contBaseTestsTypes.New(baseteststypesService)
 )
 
 func setupLogOutput() {
@@ -112,6 +134,9 @@ func main() {
 
 	server := gin.New()
 	server.Use(gin.Recovery(), gin.Logger())
+
+	basicHandler := handlerBasic.New(server)
+	basicHandler.StartHandlers()
 
 	server.GET("/company/find/:id", func(c *gin.Context) {
 		setUpHeaders(c)
@@ -162,52 +187,9 @@ func main() {
 		c.JSON(200, projectController.FindByCompanyID(id))
 	})
 
-	server.GET("/location/GetCountries", func(c *gin.Context) {
+	server.GET("/test/GetAll", func(c *gin.Context) {
 		setUpHeaders(c)
-		c.JSON(200, locationController.FindAllCountries())
-	})
-
-	server.GET("/location/GetStates", func(c *gin.Context) {
-		setUpHeaders(c)
-		c.JSON(200, locationController.FindAllStates())
-	})
-
-	server.GET("/location/GetStatesByCountry/:id_Country", func(c *gin.Context) {
-		setUpHeaders(c)
-		id := c.Param("id_Country")
-		c.JSON(200, locationController.FindStatesByCountry(id))
-	})
-
-	server.GET("/location/GetCitiesByCountry/:id_Country", func(c *gin.Context) {
-		setUpHeaders(c)
-		id := c.Param("id_Country")
-		c.JSON(200, locationController.FindCitiesByCountry(id))
-	})
-
-	server.GET("/location/GetCitiesByState/:id_state", func(c *gin.Context) {
-		setUpHeaders(c)
-		id := c.Param("id_state")
-		c.JSON(200, locationController.FindCitiesByState(id))
-	})
-
-	server.GET("/location/GetSates", func(c *gin.Context) {
-		setUpHeaders(c)
-		c.JSON(200, locationController.FindAllCountries())
-	})
-
-	server.GET("/location/GetCities", func(c *gin.Context) {
-		setUpHeaders(c)
-		c.JSON(200, locationController.FindAllCities())
-	})
-
-	server.OPTIONS("/location/UpdateCountry", func(c *gin.Context) {
-		setUpHeaders(c)
-		c.Writer.WriteHeader(200)
-	})
-
-	server.POST("/location/UpdateCountry", func(c *gin.Context) {
-		setUpHeaders(c)
-		c.JSON(200, locationController.UpdateCountry(c))
+		c.JSON(200, testController.FindAll())
 	})
 
 	server.OPTIONS("/protocol/Add", func(c *gin.Context) {
@@ -274,14 +256,56 @@ func main() {
 		c.JSON(200, basequestionController.FindAll())
 	})
 
+	server.OPTIONS("/basequestion/Add", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.Writer.WriteHeader(200)
+	})
+
 	server.POST("/basequestion/Add", func(c *gin.Context) {
 		setUpHeaders(c)
 		c.JSON(200, basequestionController.Save(c))
 	})
 
+	server.OPTIONS("/basesection/Add", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.Writer.WriteHeader(200)
+	})
+
+	server.POST("/basesection/Add", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.JSON(200, basesectionsController.Save(c))
+	})
+
 	server.GET("/basesection/GetAll", func(c *gin.Context) {
 		setUpHeaders(c)
 		c.JSON(200, basesectionsController.FindAll())
+	})
+
+	server.GET("/basesection/find/:id", func(c *gin.Context) {
+		setUpHeaders(c)
+		id := c.Param("id")
+		c.JSON(200, basesectionsController.FindByID(id))
+	})
+
+	server.OPTIONS("/baseteststypes/Add", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.Writer.WriteHeader(200)
+	})
+
+	server.POST("/baseteststypes/Add", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.JSON(200, baseteststypesController.Save(c))
+	})
+
+	server.GET("/baseteststypes/GetAll", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.JSON(200, baseteststypesController.FindAll())
+	})
+
+	server.GET("/baseteststypes/find/:id", func(c *gin.Context) {
+		setUpHeaders(c)
+		id := c.Param("id")
+		c.JSON(200, baseteststypesController.FindByID(id))
 	})
 
 	server.GET("/documentstype/find/:id", func(c *gin.Context) {
@@ -303,6 +327,54 @@ func main() {
 	server.POST("/documentstype/Update", func(c *gin.Context) {
 		setUpHeaders(c)
 		c.JSON(200, documentstypeController.Update(c))
+	})
+
+	server.OPTIONS("/login", func(c *gin.Context) {
+		setUpHeaders(c)
+		c.Writer.WriteHeader(200)
+	})
+
+	server.POST("/login", func(c *gin.Context) {
+		setUpHeaders(c)
+		var data = userController.Login(c)
+
+		if data.ID == 0 {
+			c.Writer.WriteHeader(http.StatusUnauthorized)
+			return
+		}
+
+		expirationTime := time.Now().Add(5 * time.Minute)
+
+		claims := &entity.Claims{
+			Username: data.Mail,
+			StandardClaims: jwt.StandardClaims{
+				// In JWT, the expiry time is expressed as unix milliseconds
+				ExpiresAt: expirationTime.Unix(),
+			},
+		}
+
+		var jwtKey = []byte("my_secret_key")
+
+		token := jwt.NewWithClaims(jwt.SigningMethodHS256, claims)
+		tokenString, err := token.SignedString(jwtKey)
+
+		if err != nil {
+			// If there is an error in creating the JWT return an internal server error
+			c.Writer.WriteHeader(http.StatusInternalServerError)
+			return
+		}
+
+		http.SetCookie(c.Writer, &http.Cookie{
+			Name:    "token",
+			Value:   tokenString,
+			Expires: expirationTime,
+		})
+
+		data.Token = tokenString
+
+		c.JSON(200, data)
+		//c.String(200, tokenString)
+
 	})
 
 	server.Run(":8686")

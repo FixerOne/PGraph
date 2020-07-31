@@ -15,6 +15,8 @@ type Repository interface {
 	FindAll() []entity.User
 	FindByID(id string) entity.Company
 	FindByCompanyID(id string) []entity.User
+	FindByMail(data entity.User) entity.User
+	Login(data entity.User) entity.User
 }
 
 type repository struct {
@@ -56,5 +58,15 @@ func (r *repository) FindByID(id string) entity.Company {
 func (r *repository) FindByCompanyID(id string) []entity.User {
 	var data []entity.User
 	r.connection.Set("gorm:auto_preload", true).Where("company_id = ?", id).Find(&data)
+	return data
+}
+
+func (r *repository) FindByMail(data entity.User) entity.User {
+	r.connection.Set("gorm:auto_preload", true).Where("mail = ?", data.Mail).Find(&data)
+	return data
+}
+
+func (r *repository) Login(data entity.User) entity.User {
+	r.connection.Set("gorm:auto_preload", true).Where("mail = ? AND password = ?", data.Mail, data.Password).Find(&data)
 	return data
 }

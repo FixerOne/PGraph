@@ -23,7 +23,8 @@ type User struct {
 	DataState         DataState      `json:"DataState" gorm:"foreignkey:data_state_id"`
 	DataStateID       int            `json:"DataStateID,omitempty"`
 	PhoneContact      string         `json:"PhoneContact,omitempty" binding:"required" gorm:"type:varchar(50)"`
-	Mail              string         `json:"MailContact,omitempty" binding:"required" gorm:"type:varchar(256)"`
+	Mail              string         `json:"Mail,omitempty" binding:"required" gorm:"type:varchar(256)"`
 	Password          string         `json:"Password,omitempty" binding:"required" gorm:"type:varchar(256)"`
-	UserType          string         `json:"UserTypeId,omitempty" binding:"required" gorm:"type:int4"`
+	UserstypesID      string         `json:"userstypes_id,omitempty" binding:"required" gorm:"type:int4"`
+	Token             string         `json:"Token,omitempty"`
 }

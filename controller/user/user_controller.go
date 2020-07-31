@@ -13,6 +13,8 @@ type CompanyController interface {
 	FindByID(id string) entity.Company
 	FindAll() []entity.User
 	FindByCompanyID(id string) []entity.User
+	FindByMail(ctx *gin.Context) entity.User
+	Login(ctx *gin.Context) entity.User
 	Save(ctx *gin.Context) entity.Company
 }
 
@@ -52,4 +54,16 @@ func (c *controller) FindByID(id string) entity.Company {
 //FindAll method
 func (c *controller) FindByCompanyID(id string) []entity.User {
 	return c.service.FindByCompanyID(id)
+}
+
+func (c *controller) FindByMail(ctx *gin.Context) entity.User {
+	var data entity.User
+	ctx.ShouldBindJSON(&data)
+	return c.service.FindByMail(data)
+}
+
+func (c *controller) Login(ctx *gin.Context) entity.User {
+	var data entity.User
+	ctx.ShouldBindJSON(&data)
+	return c.service.Login(data)
 }
