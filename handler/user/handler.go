@@ -11,6 +11,8 @@ import (
 
 	"github.com/dgrijalva/jwt-go"
 	gin "github.com/gin-gonic/gin"
+
+	headers "pgraph/handler/headers"
 )
 
 var (
@@ -39,23 +41,23 @@ func New(server *gin.Engine) Handler {
 func (h *handler) StartHandlers() {
 
 	h.server.GET("/user/GetAll", func(c *gin.Context) {
-		setUpHeaders(c)
+		headers.SetUpHeaders(c)
 		c.JSON(200, Controller.FindAll())
 	})
 
 	h.server.GET("/user/GetByCompany/:id", func(c *gin.Context) {
-		setUpHeaders(c)
+		headers.SetUpHeaders(c)
 		id := c.Param("id")
 		c.JSON(200, Controller.FindByCompanyID(id))
 	})
 
 	h.server.OPTIONS("/login", func(c *gin.Context) {
-		setUpHeaders(c)
+		headers.SetUpHeaders(c)
 		c.Writer.WriteHeader(200)
 	})
 
 	h.server.POST("/login", func(c *gin.Context) {
-		setUpHeaders(c)
+		headers.SetUpHeaders(c)
 		var data = Controller.Login(c)
 
 		if data.ID == 0 {
@@ -96,20 +98,5 @@ func (h *handler) StartHandlers() {
 		//c.String(200, tokenString)
 
 	})
-
-}
-
-func setUpHeaders(c *gin.Context) {
-	c.Writer.Header().Set("Access-Control-Allow-Origin", "*")
-	c.Writer.Header().Set("Access-Control-Allow-Credentials", "true")
-	c.Writer.Header().Set("Access-Control-Allow-Headers", "Content-Type, Content-Length, Accept-Encoding, X-CSRF-Token, Authorization, accept, origin, Cache-Control, X-Requested-With")
-	c.Writer.Header().Set("Access-Control-Allow-Methods", "POST, OPTIONS, GET, PUT")
-
-	if c.Request.Method == "OPTIONS" {
-		c.AbortWithStatus(204)
-		return
-	}
-
-	c.Next()
 
 }

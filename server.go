@@ -4,22 +4,6 @@ import (
 	"io"
 	"os"
 
-	contTest "pgraph/controller/test"
-	repoTest "pgraph/repository/test"
-	servTest "pgraph/service/test"
-
-	contProtocol "pgraph/controller/protocol"
-	repoProtocol "pgraph/repository/protocol"
-	servProtocol "pgraph/service/protocol"
-
-	contTesttype "pgraph/controller/testtype"
-	repoTesttype "pgraph/repository/testtype"
-	servTesttype "pgraph/service/testtype"
-
-	contTestquestion "pgraph/controller/testquestion"
-	repoTestquestion "pgraph/repository/testquestion"
-	servTestquestion "pgraph/service/testquestion"
-
 	contBaseQuestion "pgraph/controller/basequestion"
 	repoBaseQuestion "pgraph/repository/basequestion"
 	servBaseQuestion "pgraph/service/basequestion"
@@ -39,6 +23,10 @@ import (
 	handlerBasic "pgraph/handler/basic"
 	handlerCompany "pgraph/handler/company"
 	handlerProject "pgraph/handler/project"
+	handlerProtocol "pgraph/handler/protocol"
+	handlerTest "pgraph/handler/test"
+	handlerTestquestion "pgraph/handler/testquestion"
+	handlerTestType "pgraph/handler/testtype"
 	handlerUser "pgraph/handler/user"
 
 	"github.com/gin-gonic/gin"
@@ -59,7 +47,7 @@ var (
 
 	projectRepository repoProject.Repository        = repoProject.New()
 	projectService    servProject.Service           = servProject.New(projectRepository)
-	projectController contProject.ProjectController = contProject.New(projectService)*/
+	projectController contProject.ProjectController = contProject.New(projectService)
 
 	testRepository repoTest.Repository     = repoTest.New()
 	testService    servTest.Service        = servTest.New(testRepository)
@@ -75,7 +63,7 @@ var (
 
 	testquestionRepository repoTestquestion.Repository             = repoTestquestion.New()
 	testquestionService    servTestquestion.Service                = servTestquestion.New(testquestionRepository)
-	testquestionController contTestquestion.TestQuestionController = contTestquestion.New(testquestionService)
+	testquestionController contTestquestion.TestQuestionController = contTestquestion.New(testquestionService)*/
 
 	basequestionRepository repoBaseQuestion.Repository             = repoBaseQuestion.New()
 	basequestionService    servBaseQuestion.Service                = servBaseQuestion.New(basequestionRepository)
@@ -131,6 +119,18 @@ func main() {
 	projectHandler := handlerProject.New(server)
 	projectHandler.StartHandlers()
 
+	testHandler := handlerTest.New(server)
+	testHandler.StartHandlers()
+
+	protocolHandler := handlerProtocol.New(server)
+	protocolHandler.StartHandlers()
+
+	testtypeHandler := handlerTestType.New(server)
+	testtypeHandler.StartHandlers()
+
+	testquestionHandler := handlerTestquestion.New(server)
+	testquestionHandler.StartHandlers()
+
 	/*server.GET("/company/find/:id", func(c *gin.Context) {
 		setUpHeaders(c)
 		id := c.Param("id")
@@ -178,7 +178,7 @@ func main() {
 		setUpHeaders(c)
 		id := c.Param("id")
 		c.JSON(200, projectController.FindByCompanyID(id))
-	})*/
+	})
 
 	server.GET("/test/GetAll", func(c *gin.Context) {
 		setUpHeaders(c)
@@ -236,7 +236,7 @@ func main() {
 		setUpHeaders(c)
 		id := c.Param("id")
 		c.JSON(200, testquestionController.FindByTestTypeID(id))
-	})
+	})*/
 
 	server.GET("/basequestion/find/:id", func(c *gin.Context) {
 		setUpHeaders(c)
