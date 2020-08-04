@@ -1,6 +1,8 @@
 package main
 
 import (
+	"os"
+	environment "pgraph/environment"
 	handlerBasequestion "pgraph/handler/basequestion"
 	handlerBasesection "pgraph/handler/basesection"
 	handlerBaseteststypes "pgraph/handler/baseteststypes"
@@ -20,6 +22,8 @@ import (
 var ()
 
 func main() {
+
+	environment.SetVariables()
 
 	server := gin.New()
 	server.Use(gin.Recovery(), gin.Logger())
@@ -60,6 +64,6 @@ func main() {
 	testquestionHandler := handlerTestquestion.New(server)
 	testquestionHandler.StartHandlers()
 
-	server.Run(":8686")
+	server.Run(os.Getenv("services_port"))
 
 }
