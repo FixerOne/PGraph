@@ -65,6 +65,5 @@ func main() {
 	testquestionHandler.StartHandlers()
 
 	server.Run(os.Getenv("services_port"))
-	//Test
 
 }

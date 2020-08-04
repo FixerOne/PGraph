@@ -22,13 +22,14 @@ func Init() {
 	password := os.Getenv("db_pass")
 	dbName := os.Getenv("db_name")
 	dbHost := os.Getenv("db_host")
+	dbSSLMode := os.Getenv("ssl_mode")
 
 	/*username := "vsa"
 	password := "vsa"
 	dbName := "vsa"
 	dbHost := "localhost"*/
 
-	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=disable password=%s", dbHost, username, dbName, password) //Build connection string
+	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=%s password=%s", dbHost, username, dbName, dbSSLMode, password) //Build connection string
 	fmt.Println(dbURI)
 
 	conn, err := gorm.Open("postgres", dbURI)
