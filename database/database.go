@@ -23,6 +23,7 @@ func Init() {
 	dbName := os.Getenv("db_name")
 	dbHost := os.Getenv("db_host")
 	dbSSLMode := os.Getenv("ssl_mode")
+	dbHostElephant := os.Getenv("db_host_elephant")
 
 	/*username := "vsa"
 	password := "vsa"
@@ -30,6 +31,13 @@ func Init() {
 	dbHost := "localhost"*/
 
 	dbURI := fmt.Sprintf("host=%s user=%s dbname=%s sslmode=%s password=%s", dbHost, username, dbName, dbSSLMode, password) //Build connection string
+
+	if dbHostElephant == "1" {
+		//postgres://gblhjfxo:3HaHmRjkMgxFpYJisHPOV4-Jz_IILX91@drona.db.elephantsql.com:5432/gblhjfxo
+		dbURI = fmt.Sprintf("postgres://%s:%s@%s:5432/%s", username, password, dbHost, username)
+		//dbURI = "postgres://gblhjfxo:3HaHmRjkMgxFpYJisHPOV4-Jz_IILX91@drona.db.elephantsql.com:5432/gblhjfxo"
+	}
+
 	fmt.Println(dbURI)
 
 	conn, err := gorm.Open("postgres", dbURI)
