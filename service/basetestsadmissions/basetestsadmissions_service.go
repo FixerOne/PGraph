@@ -2,15 +2,15 @@ package basetestsadmissions
 
 import (
 	"pgraph/entity"
-	repository "pgraph/repository/basetestssections"
+	repository "pgraph/repository/basetestsadmissions"
 )
 
 //Service inerface
 type Service interface {
-	Save(entity.Basetestssections) entity.Basetestssections
-	FindAll() []entity.Basetestssections
-	FindByID(id string) entity.Basetestssections
-	FindByTestTypeID(id string) []entity.Basetestssections
+	Save(entity.Basetestsadmissions) entity.Basetestsadmissions
+	FindAll() []entity.Basetestsadmissions
+	FindByID(id string) entity.Basetestsadmissions
+	FindByTestTypeID(id string) []entity.Basetestsadmissions
 }
 
 type service struct {
@@ -25,22 +25,22 @@ func New(repository repository.Repository) Service {
 }
 
 //Save method
-func (service *service) Save(data entity.Basetestssections) entity.Basetestssections {
+func (service *service) Save(data entity.Basetestsadmissions) entity.Basetestsadmissions {
 	service.repository.Save(data)
 	return data
 }
 
 //FindAll Meethod
-func (service *service) FindAll() []entity.Basetestssections {
+func (service *service) FindAll() []entity.Basetestsadmissions {
 	return service.repository.FindAll()
 }
 
 //FindById Meethod
-func (service *service) FindByID(id string) entity.Basetestssections {
+func (service *service) FindByID(id string) entity.Basetestsadmissions {
 	return service.repository.FindByID(id)
 }
 
 //FindByProjectID Meethod
-func (service *service) FindByTestTypeID(id string) []entity.Basetestssections {
+func (service *service) FindByTestTypeID(id string) []entity.Basetestsadmissions {
 	return service.repository.FindByTestTypeID(id)
 }
