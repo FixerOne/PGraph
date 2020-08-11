@@ -35,12 +35,12 @@ func New(server *gin.Engine) Handler {
 //StartHandlers function
 func (h *handler) StartHandlers() {
 
-	h.server.GET("/basetestsadmissions/GetAll", func(c *gin.Context) {
+	h.server.GET("/basetestsadmission/GetAll", func(c *gin.Context) {
 		headers.SetUpHeaders(c)
 		c.JSON(200, Controller.FindAll())
 	})
 
-	h.server.GET("/basetestsadmissions/GetByTestType/:id", func(c *gin.Context) {
+	h.server.GET("/basetestsadmission/GetByTestType/:id", func(c *gin.Context) {
 		headers.SetUpHeaders(c)
 		id := c.Param("id")
 		c.JSON(200, Controller.FindByTestTypeID(id))
