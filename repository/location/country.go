@@ -13,6 +13,7 @@ type Repository interface {
 	UpdateCountry(data entity.Country)
 	//Delete(data entity.Country)
 	FindAllCountries() []entity.Country
+	FindAllCountriesByActive() []entity.Country
 	FindStatesByCountry(id string) []entity.State
 	FindAllStates() []entity.State
 	FindCitiesByCountry(id string) []entity.City
@@ -61,6 +62,20 @@ func (r *repository) FindAllCountries() []entity.Country {
 
 	var data []entity.Country
 	db.Set("gorm:auto_preload", true).Order("name asc").Find(&data)
+
+	db.Close()
+
+	return data
+}
+
+func (r *repository) FindAllCountriesByActive() []entity.Country {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Country{}, &entity.State{}, &entity.City{})
+
+	var data []entity.Country
+	db.Set("gorm:auto_preload", true).Raw("SELECT * from public.get_countries_by_active(?);", true).Scan(&data)
 
 	db.Close()
 

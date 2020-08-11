@@ -9,6 +9,7 @@ import (
 type Service interface {
 	Save(entity.Company) entity.Company
 	FindAll() []entity.User
+	FindAllByType(usertype string) []entity.User
 	FindByID(id string) entity.Company
 	FindByMail(entity.User) entity.User
 	Login(entity.User) entity.User
@@ -36,6 +37,11 @@ func (service *service) Save(company entity.Company) entity.Company {
 //FindAll Meethod
 func (service *service) FindAll() []entity.User {
 	return service.repository.FindAll()
+}
+
+//FindAll Meethod
+func (service *service) FindAllByType(usertype string) []entity.User {
+	return service.repository.FindAllByType(usertype)
 }
 
 //FindById Meethod

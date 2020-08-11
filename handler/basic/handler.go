@@ -39,6 +39,12 @@ func (h *handler) StartHandlers() {
 		headers.SetUpHeaders(c)
 		c.JSON(200, Controller.FindAllCountries())
 	})
+
+	h.server.GET("/location/GetCountriesByActive", func(c *gin.Context) {
+		headers.SetUpHeaders(c)
+		c.JSON(200, Controller.FindAllCountriesByActive())
+	})
+
 	h.server.GET("/location/GetStates", func(c *gin.Context) {
 		headers.SetUpHeaders(c)
 		c.JSON(200, Controller.FindAllStates())

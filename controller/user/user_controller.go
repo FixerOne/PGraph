@@ -12,6 +12,7 @@ type CompanyController interface {
 	FindOne() entity.User
 	FindByID(id string) entity.Company
 	FindAll() []entity.User
+	FindAllByType(usertype string) []entity.User
 	FindByCompanyID(id string) []entity.User
 	FindByMail(ctx *gin.Context) entity.User
 	Login(ctx *gin.Context) entity.User
@@ -39,6 +40,11 @@ func (c *controller) Save(ctx *gin.Context) entity.Company {
 //FindAll method
 func (c *controller) FindAll() []entity.User {
 	return c.service.FindAll()
+}
+
+//FindAll method
+func (c *controller) FindAllByType(usertype string) []entity.User {
+	return c.service.FindAllByType(usertype)
 }
 
 //FindAll method

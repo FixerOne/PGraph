@@ -39,7 +39,6 @@ func Init() {
 
 //Close conection
 func Close() {
-
 	defer db.Close()
 }
 

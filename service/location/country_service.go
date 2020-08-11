@@ -10,6 +10,7 @@ type Service interface {
 	Save(entity.Country) entity.Country
 	UpdateCountry(entity.Country) entity.Country
 	FindAllCountries() []entity.Country
+	FindAllCountriesByActive() []entity.Country
 	FindStatesByCountry(id string) []entity.State
 	FindAllStates() []entity.State
 	FindCitiesByCountry(id string) []entity.City
@@ -42,6 +43,10 @@ func (service *service) UpdateCountry(data entity.Country) entity.Country {
 //FindAll Meethod
 func (service *service) FindAllCountries() []entity.Country {
 	return service.repository.FindAllCountries()
+}
+
+func (service *service) FindAllCountriesByActive() []entity.Country {
+	return service.repository.FindAllCountriesByActive()
 }
 
 //FindAll Meethod

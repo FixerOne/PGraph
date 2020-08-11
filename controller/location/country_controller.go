@@ -11,6 +11,7 @@ import (
 type LocationController interface {
 	FindOne() entity.Country
 	FindAllCountries() []entity.Country
+	FindAllCountriesByActive() []entity.Country
 	FindStatesByCountry(id string) []entity.State
 	FindAllStates() []entity.State
 	FindCitiesByState(id string) []entity.City
@@ -47,6 +48,10 @@ func (c *controller) UpdateCountry(ctx *gin.Context) entity.Country {
 //FindAll method
 func (c *controller) FindAllCountries() []entity.Country {
 	return c.service.FindAllCountries()
+}
+
+func (c *controller) FindAllCountriesByActive() []entity.Country {
+	return c.service.FindAllCountriesByActive()
 }
 
 //FindAll method

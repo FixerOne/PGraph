@@ -45,6 +45,12 @@ func (h *handler) StartHandlers() {
 		c.JSON(200, Controller.FindAll())
 	})
 
+	h.server.GET("/user/GetAllByType/:usertype", func(c *gin.Context) {
+		headers.SetUpHeaders(c)
+		usertype := c.Param("usertype")
+		c.JSON(200, Controller.FindAllByType(usertype))
+	})
+
 	h.server.GET("/user/GetByCompany/:id", func(c *gin.Context) {
 		headers.SetUpHeaders(c)
 		id := c.Param("id")

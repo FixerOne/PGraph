@@ -25,6 +25,7 @@ type User struct {
 	PhoneContact      string         `json:"PhoneContact,omitempty" binding:"required" gorm:"type:varchar(50)"`
 	Mail              string         `json:"Mail,omitempty" binding:"required" gorm:"type:varchar(256)"`
 	Password          string         `json:"Password,omitempty" binding:"required" gorm:"type:varchar(256)"`
+	Userstypes        Userstypes     `json:"Userstype" gorm:"foreignkey:userstypes_id"`
 	UserstypesID      string         `json:"userstypes_id,omitempty" binding:"required" gorm:"type:int4"`
 	Token             string         `json:"Token,omitempty"`
 }

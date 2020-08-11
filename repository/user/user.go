@@ -13,6 +13,7 @@ type Repository interface {
 	Update(data entity.Company)
 	Delete(data entity.Company)
 	FindAll() []entity.User
+	FindAllByType(usertype string) []entity.User
 	FindByID(id string) entity.Company
 	FindByCompanyID(id string) []entity.User
 	FindByMail(data entity.User) entity.User
@@ -52,6 +53,22 @@ func (r *repository) FindAll() []entity.User {
 
 	var entitites []entity.User
 	db.Set("gorm:auto_preload", true).Order("first_name asc").Find(&entitites)
+
+	db.Close()
+
+	return entitites
+}
+
+func (r *repository) FindAllByType(usertype string) []entity.User {
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Documentstypes{}, &entity.Company{}, &entity.City{}, &entity.DataState{})
+
+	var entitites []entity.User
+	//db.Set("gorm:auto_preload", true).Raw("SELECT * from public.get_users_by_type(?);", usertype).Scan(&entitites)
+	db.Set("gorm:auto_preload", true).Where("userstypes_id = ?", usertype).Find(&entitites)
+	//db.Set("gorm:auto_preload", true).Order("first_name asc").Find(&entitites)
 
 	db.Close()
 
