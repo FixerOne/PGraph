@@ -5,6 +5,7 @@ import (
 	environment "pgraph/environment"
 	handlerBasequestion "pgraph/handler/basequestion"
 	handlerBasesection "pgraph/handler/basesection"
+	handlerBasetestsadmissions "pgraph/handler/basetestsadmissions"
 	handlerBaseteststypes "pgraph/handler/baseteststypes"
 	handlerBasic "pgraph/handler/basic"
 	handlerCompany "pgraph/handler/company"
@@ -63,6 +64,9 @@ func main() {
 
 	testquestionHandler := handlerTestquestion.New(server)
 	testquestionHandler.StartHandlers()
+
+	basetestsadmissionsHandler := handlerBasetestsadmissions.New(server)
+	basetestsadmissionsHandler.StartHandlers()
 
 	server.Run(os.Getenv("services_port"))
 
