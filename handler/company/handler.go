@@ -56,4 +56,14 @@ func (h *handler) StartHandlers() {
 		c.Writer.WriteHeader(200)
 	})
 
+	h.server.OPTIONS("/company/Save", func(c *gin.Context) {
+		headers.SetUpHeaders(c)
+		c.Writer.WriteHeader(200)
+	})
+
+	h.server.POST("/company/Save", func(c *gin.Context) {
+		headers.SetUpHeaders(c)
+		c.JSON(200, Controller.Save(c))
+	})
+
 }
