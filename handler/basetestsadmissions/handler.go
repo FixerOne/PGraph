@@ -35,15 +35,25 @@ func New(server *gin.Engine) Handler {
 //StartHandlers function
 func (h *handler) StartHandlers() {
 
+	h.server.GET("/basetestsadmission/find/:id", func(c *gin.Context) {
+		headers.SetUpHeaders(c)
+		id := c.Param("id")
+		c.JSON(200, Controller.FindByID(id))
+	})
+
 	h.server.GET("/basetestsadmission/GetAll", func(c *gin.Context) {
 		headers.SetUpHeaders(c)
 		c.JSON(200, Controller.FindAll())
 	})
 
-	h.server.GET("/basetestsadmission/GetByTestType/:id", func(c *gin.Context) {
+	h.server.OPTIONS("/basetestsadmission/Add", func(c *gin.Context) {
 		headers.SetUpHeaders(c)
-		id := c.Param("id")
-		c.JSON(200, Controller.FindByTestTypeID(id))
+		c.Writer.WriteHeader(200)
+	})
+
+	h.server.POST("/basetestsadmission/Add", func(c *gin.Context) {
+		headers.SetUpHeaders(c)
+		c.JSON(200, Controller.Save(c))
 	})
 
 }

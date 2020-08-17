@@ -27,7 +27,15 @@ func New() Repository {
 }
 
 func (r *repository) Save(data entity.Basetestsquestions) {
-	r.connection.Save(&data)
+
+	database.Init()
+	db := database.GetDB()
+	db.AutoMigrate(&entity.Basetestsquestions{})
+
+	db.Save(&data)
+
+	db.Close()
+
 }
 
 func (r *repository) Update(data entity.Basetestsquestions) {
