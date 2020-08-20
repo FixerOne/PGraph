@@ -46,14 +46,14 @@ func (h *handler) StartHandlers() {
 		c.JSON(200, Controller.FindAll())
 	})
 
-	h.server.OPTIONS("/documentstype/Update", func(c *gin.Context) {
+	h.server.OPTIONS("/documentstype/Save", func(c *gin.Context) {
 		headers.SetUpHeaders(c)
 		c.Writer.WriteHeader(200)
 	})
 
-	h.server.POST("/documentstype/Update", func(c *gin.Context) {
+	h.server.POST("/documentstype/Save", func(c *gin.Context) {
 		headers.SetUpHeaders(c)
-		c.JSON(200, Controller.Update(c))
+		c.JSON(200, Controller.Save(c))
 	})
 
 }
